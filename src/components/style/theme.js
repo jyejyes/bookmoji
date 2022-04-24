@@ -17,3 +17,27 @@ export const color = {
   medium_gray: "#dddddd",
   medium_gray2: "#8c8c8c",
 };
+
+export const blackButton = css`
+  font-family: "LeferiBaseType-RegularA";
+  margin-right: 1rem;
+  border-radius: 2.5rem;
+  padding: 1rem 1.2rem;
+  color: ${color.white};
+  background: ${color.black};
+  &:hover {
+    background: ${color.dark_gray2};
+  }
+`;
+
+export const whiteButton = css`
+  font-family: "LeferiBaseType-RegularA";
+  margin-right: 1rem;
+  border-radius: 3rem;
+  padding: 1rem 1.2rem;
+  background: ${color.white};
+  color: ${color.black};
+  &:hover {
+    background: ${color.light_gray};
+  }
+`;
