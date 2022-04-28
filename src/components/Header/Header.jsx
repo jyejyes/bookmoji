@@ -1,16 +1,31 @@
 import React from "react";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { ReactComponent as Logo } from "../../svg/logo.svg";
 import { blackButton, color, flexCenter, whiteButton } from "../style/theme";
 
 const Header = () => {
+  const navigate = useNavigate();
+
+  const onClickLogo = () => {
+    navigate("/");
+  };
+
+  const onClickAuth = (e) => {
+    navigate(`/auth/${e.target.value}`);
+  };
+
   return (
     <HeaderWrapper>
       <div>
-        <LogoStyle />
+        <LogoStyle onClick={onClickLogo} />
         <div className="auth">
-          <button>회원가입</button>
-          <button>로그인</button>
+          <button onClick={onClickAuth} value="register">
+            회원가입
+          </button>
+          <button onClick={onClickAuth} value="login">
+            로그인
+          </button>
         </div>
       </div>
     </HeaderWrapper>
