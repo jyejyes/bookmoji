@@ -1,66 +1,102 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import { authButton, authInput, authLabel, flexCenter } from "../style/theme";
+import {
+  authButton,
+  authInput,
+  authLabel,
+  color,
+  flexCenter,
+} from "../style/theme";
 
 const Register = () => {
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
+    mode: "onSubmit",
+    reValidateMode: "onChange",
+  });
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+  const onError = (error) => {
+    console.log(error);
+  };
+
+  const pw = useRef();
+  pw.current = watch("password");
+
   return (
     <RegisterWrapper>
       <h1>회원가입</h1>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit, onError)}>
         <label>이메일</label>
         <input
           type="text"
-          placeholder="이메일을 입력해주세요"
+          placeholder="abcd@gmail.com"
           name="email"
           {...register("email", {
+            required: "이메일을 입력해주세요.",
             pattern: {
               value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
               message: "이메일 형식에 맞게 작성해주세요",
             },
           })}
         />
-
+        {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
         <label>비밀번호</label>
         <input
           type="password"
-          placeholder="비밀번호를 입력해주세요"
+          placeholder="영문, 숫자의 조합으로 8자 이상 입력해주세요"
           name="password"
-          {...register("email", {
+          {...register("password", {
+            required: "비밀번호를 입력해주세요.",
+            minLength: {
+              value: 8,
+              message: "최소 8자 이상의 비밀번호를 입력해주세요.",
+            },
+
             pattern: {
-              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-              message: "비번형식에 맞게 작성해주세요",
+              value: /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,}$/,
+              message: "영문, 숫자를 혼용해서 입력해주세요.",
             },
           })}
         />
-
+        {errors.password && (
+          <ErrorMessage>{errors.password.message}</ErrorMessage>
+        )}
         <label>비밀번호 확인</label>
         <input
           type="password"
           placeholder="비밀번호와 동일하게 입력해주세요"
-          name="password"
-          {...register("email", {
-            pattern: {
-              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-              message: "비번확인 형식에 맞게 작성해주세요",
-            },
+          name="psCheck"
+          {...register("psCheck", {
+            required: "비밀번호 확인을 입력해주세요.",
+            validate: (value) => value === pw.current,
           })}
         />
-
+        {errors.psCheck && errors.psCheck.type == "validate" && (
+          <ErrorMessage>비밀번호가 일치하지 않습니다.</ErrorMessage>
+        )}
         <label>닉네임</label>
         <input
           type="text"
-          placeholder="닉네임을 설정해주세요"
+          placeholder="닉네임을 두 글자 이상으로 입력해주세요"
           name="password"
-          {...register("email", {
-            pattern: {
-              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-              message: "비번확인 형식에 맞게 작성해주세요",
+          {...register("nickname", {
+            required: "닉네임을 입력해주세요.",
+            minLength: {
+              value: 2,
+              message: "두 글자 이상 입력해주세요",
             },
           })}
-        />
-
+        />{" "}
+        {errors.nickname && (
+          <ErrorMessage>{errors.nickname.message}</ErrorMessage>
+        )}
         <button>가입하기</button>
       </form>
     </RegisterWrapper>
@@ -93,4 +129,10 @@ const RegisterWrapper = styled.div`
     ${authButton}
     margin-top:2rem;
   }
+`;
+
+const ErrorMessage = styled.p`
+  color: ${color.Main};
+  margin: 0rem 0rem 1rem 1rem;
+  font-size: 1.2rem;
 `;
