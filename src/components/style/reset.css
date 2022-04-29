@@ -85,6 +85,7 @@ body {
   font-size: 62.5%;
   font-family: "LeferiBaseType-RegularA";
   vertical-align: baseline;
+  box-sizing: border-box;
 }
 /* HTML5 display-role reset for older browsers */
 article,
@@ -149,6 +150,7 @@ textarea {
   -webkit-appearance: none;
   -webkit-border-radius: 0;
   border-radius: 0;
+  font-family: "LeferiBaseType-RegularA";
 }
 textarea {
   border: none;
