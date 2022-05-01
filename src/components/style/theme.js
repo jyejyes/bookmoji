@@ -11,11 +11,12 @@ export const color = {
   black: "#151515",
   white: "#FFFFFF",
   light_gray: "#f5f5f5",
-  light_gray2: "#eeeeee",
-  dark_gray: "#555555",
-  dark_gray2: "#333333",
+  light_gray2: "#f2f2f2",
+  dark_gray: "#777777",
+  dark_gray2: "#484848",
   medium_gray: "#dddddd",
-  medium_gray2: "#8c8c8c",
+  medium_gray2: "#9c9c9c",
+  red: "",
 };
 
 export const blackButton = css`
@@ -24,7 +25,7 @@ export const blackButton = css`
   border-radius: 2.5rem;
   padding: 0.8rem 1rem;
   color: ${color.white};
-  background: ${color.black};
+  background: ${color.Main};
   &:hover {
     background: ${color.dark_gray2};
   }
@@ -69,13 +70,17 @@ export const authInput = css`
   width: 100%;
   font-size: 1.5rem;
   padding: 1.3rem 2rem;
-  box-sizing: border-box;
   margin-bottom: 1rem;
+  box-sizing: border-box;
   &:hover {
     background: ${color.white};
   }
   &:focus {
     border: 1px solid ${color.Main};
+  }
+  &::placeholder {
+    color: ${color.medium_gray2};
+    font-family: "LeferiPoint-WhiteA";
   }
 `;
 
