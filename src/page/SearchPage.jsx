@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import styled from "styled-components";
 import { bookSearch } from "../api/bookSearch";
+import LoadingSpinner from "../components/common/LoadingSpinner";
 import Header from "../components/Header/Header";
 import { color, flexCenter } from "../components/style/theme";
 
 const SearchPage = () => {
   const { bookName } = useParams();
   const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     onGetBooks(bookName);
@@ -19,8 +21,10 @@ const SearchPage = () => {
       page: 1,
       size: 40,
     };
+    setLoading(true);
     const resultData = await bookSearch(params);
     setBooks(resultData.data.documents);
+    setLoading(false);
     console.log(books);
   };
 
@@ -31,24 +35,30 @@ const SearchPage = () => {
         <p className="result-text">"{bookName}" 의 검색결과</p>
       </section>
 
-      {books.length === 0 ? (
+      {loading ? (
         <main className="no-result">
-          <p>검색 결과가 없어요. 다른 검색어를 입력해보세요.</p>
+          <LoadingSpinner />
         </main>
       ) : (
         <main className="result">
-          {books.map((item, index) => (
-            <div key={index} className="each-book">
-              <div className="book-image">
-                {/* 기본 이미지 설정해야함 */}
-                <img src={item.thumbnail} alt="책 사진" />
+          {books.length === 0 ? (
+            <p className="no-result">
+              검색 결과가 없습니다. 다른 검색어로 검색해보세요
+            </p>
+          ) : (
+            books.map((item, index) => (
+              <div key={index} className="each-book">
+                <div className="book-image">
+                  {/* 기본 이미지 설정해야함 */}
+                  <img src={item.thumbnail} alt="책 사진" />
+                </div>
+                <h2 className="book-title">{item.title}</h2>
+                <p className="book-publisher">
+                  {item.authors[0]}•{item.publisher}
+                </p>
               </div>
-              <h2 className="book-title">{item.title}</h2>
-              <p className="book-publisher">
-                {item.authors[0]}•{item.publisher}
-              </p>
-            </div>
-          ))}
+            ))
+          )}
         </main>
       )}
     </SearchWrapper>
@@ -75,8 +85,10 @@ const SearchWrapper = styled.div`
     width: 100%;
     position: absolute;
     top: 50%;
+    left: 0;
     color: ${color.medium_gray2};
     text-align: center;
+    font-size: 1.4rem;
     p {
       font-size: 1.4rem;
     }
