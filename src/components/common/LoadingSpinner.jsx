@@ -10,7 +10,15 @@ export default LoadingSpinner;
 
 const SpinnerStyle = styled(Spinner)`
   width: 5rem;
-  //   transform: rotate(360deg);
-  //   transition: all 0.5s ease;
+  animation: rotate 3s infinite;
   fill: ${color.Main};
+
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
 `;
