@@ -1,20 +1,16 @@
 import React from "react";
 import styled from "styled-components";
-import {
-  color,
-  userButton,
-  userSubject,
-  userText,
-} from "../../components/style/theme";
+import { color, userButton, userSubject } from "../../components/style/theme";
+import UserButton from "../common/UserButton";
 
 const ChangeInfo = () => {
   return (
     <ChangeInfoWrapper>
       <h2>개인정보 수정</h2>
       <p>닉네임 변경</p>
-      <button className="name">닉네임 변경</button>
+      <UserButton className="name" content="닉네임 변경" />
       <p>비밀번호 변경</p>
-      <button className="password">비밀번호 변경</button>
+      <UserButton className="password" content="비밀번호 변경" />
     </ChangeInfoWrapper>
   );
 };
@@ -27,9 +23,6 @@ const ChangeInfoWrapper = styled.div`
   border-top: 1px solid ${color.medium_gray};
   h2 {
     ${userSubject}
-  }
-  button {
-    ${userButton}
   }
   p {
     font-size: 1.5rem;

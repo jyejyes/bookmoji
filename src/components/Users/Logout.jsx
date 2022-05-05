@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Modal from "../common/Modal";
+import UserButton from "../common/UserButton";
 import { color, userButton, userSubject, userText } from "../style/theme";
 
 const Logout = () => {
@@ -17,9 +18,11 @@ const Logout = () => {
       <LogoutWrapper>
         <h2>계정 로그아웃</h2>
         <p>계정 로그아웃은 언제든지 다시 돌아올 수 있습니다. </p>
-        <button onClick={handleOpenModal} name="logout">
-          계정 로그아웃
-        </button>
+        <UserButton
+          onClick={handleOpenModal}
+          name="logout"
+          content="계정 로그아웃"
+        />
       </LogoutWrapper>
       {isModalOpen && (
         <Modal handleOpenModal={handleOpenModal} whatBtn={clickWhatBtn} />
@@ -37,10 +40,7 @@ const LogoutWrapper = styled.div`
   & > h2 {
     ${userSubject}
   }
-  & > button {
-    ${userButton}
-    border: 1px solid red;
-  }
+
   & > p {
     ${userText}
   }

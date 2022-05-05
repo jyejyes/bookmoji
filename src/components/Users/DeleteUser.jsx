@@ -7,6 +7,7 @@ import {
   userSubject,
   userText,
 } from "../../components/style/theme";
+import UserButton from "../common/UserButton";
 
 const DeleteUser = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,9 +22,12 @@ const DeleteUser = () => {
     <DeleteWrapper>
       <h2>계정 탈퇴</h2>
       <p>계정 탈퇴는 계정을 다시 복구할 수 없습니다.</p>
-      <button onClick={handleOpenModal} name="deleteuser">
-        계정 탈퇴
-      </button>
+      <UserButton
+        onClick={handleOpenModal}
+        name="deleteuser"
+        content="계정 탈퇴"
+      />
+
       {isModalOpen && (
         <Modal handleOpenModal={handleOpenModal} whatBtn={clickWhatBtn} />
       )}
@@ -39,10 +43,7 @@ const DeleteWrapper = styled.div`
   & > h2 {
     ${userSubject}
   }
-  & > button {
-    ${userButton}
-    border: 1px solid red;
-  }
+
   & > p {
     ${userText}
   }
