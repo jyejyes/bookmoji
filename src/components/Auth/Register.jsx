@@ -1,4 +1,5 @@
-import React, { useRef } from "react";
+import axios from "axios";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import {
@@ -10,6 +11,28 @@ import {
 } from "../style/theme";
 
 const Register = () => {
+  const [loading, setLoading] = useState(false);
+  const [resultData, setResultData] = useState("");
+  const [error, setError] = useState("");
+
+  //회원가입 api
+  const registerApi = async (data) => {
+    try {
+      setLoading(true);
+      const res = await axios.post("https://bookmoji.site/users/signup", data);
+      setLoading(false);
+      // 로딩 끝나면
+      if (!loading) {
+        setResultData(res);
+      }
+      // 에러
+      if (res.data.code === 2017) alert("이미 가입된 이메일입니다");
+    } catch (e) {
+      setError(e);
+    }
+  };
+
+  //react-form-hook 라이브러리
   const {
     register,
     handleSubmit,
@@ -20,8 +43,13 @@ const Register = () => {
     reValidateMode: "onChange",
   });
   const onSubmit = (data) => {
-    console.log(data);
+    registerApi({
+      email: data.email,
+      password: data.password,
+      nickname: data.nickname,
+    });
   };
+
   const onError = (error) => {
     console.log(error);
   };
@@ -49,6 +77,7 @@ const Register = () => {
         {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
         <label>비밀번호</label>
         <input
+          autoComplete="off"
           type="password"
           placeholder="영문, 숫자의 조합으로 8자 이상 입력해주세요"
           name="password"
@@ -70,6 +99,7 @@ const Register = () => {
         )}
         <label>비밀번호 확인</label>
         <input
+          autoComplete="off"
           type="password"
           placeholder="비밀번호와 동일하게 입력해주세요"
           name="psCheck"
