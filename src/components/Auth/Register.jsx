@@ -28,7 +28,7 @@ const Register = () => {
       // 에러
       if (res.data.code === 2017) alert("이미 가입된 이메일입니다");
     } catch (e) {
-      setError(e);
+      console.log(e);
     }
   };
 
