@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import {
   authButton,
@@ -11,6 +12,8 @@ import {
 } from "../style/theme";
 
 const Register = () => {
+  const navigate = useNavigate();
+
   const [loading, setLoading] = useState(false);
   const [resultData, setResultData] = useState("");
   const [error, setError] = useState("");
@@ -25,7 +28,8 @@ const Register = () => {
       if (!loading) {
         setResultData(res);
       }
-      // 에러
+      // 분기
+      if (res.data.code === 1000) navigate("/auth/login");
       if (res.data.code === 2017) alert("이미 가입된 이메일입니다");
     } catch (e) {
       console.log(e);

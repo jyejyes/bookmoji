@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import {
@@ -8,8 +8,47 @@ import {
   color,
   flexCenter,
 } from "../style/theme";
+import axios from "axios";
+import { useNavigate } from "react-router";
 
 const Login = () => {
+  const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(false);
+  const [resultData, setResultData] = useState("");
+  const [error, setError] = useState("");
+
+  //로그인 api
+  const loginApi = async (data) => {
+    try {
+      setLoading(true);
+      const res = await axios.post("https://bookmoji.site/users/login", data);
+      setLoading(false);
+      // 로딩 끝나면
+      if (!loading) {
+        setResultData(res);
+      }
+      //성공시
+      if (res.data.isSuccess) {
+        navigate("/");
+        // jwt 토큰 값 로컬에 저장,,
+        console.log(res.data.result.jwt);
+        localStorage.setItem("jwt", res.data.result.jwt);
+        localStorage.setItem("userIdx", res.data.result.userIdx);
+      }
+      // 에러
+      if (
+        res.data.code === 3014 ||
+        res.data.code === 3015 ||
+        res.data.code === 3016 ||
+        res.data.code === 4000
+      )
+        setError(res.data.message);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const {
     register,
     handleSubmit,
@@ -19,7 +58,10 @@ const Login = () => {
     reValidateMode: "onChange",
   });
   const onSubmit = (data) => {
-    console.log(data);
+    loginApi({
+      email: data.email,
+      password: data.password,
+    });
   };
   const onError = (error) => {
     console.log(error);
@@ -28,6 +70,12 @@ const Login = () => {
   return (
     <LoginWrapper>
       <h1>로그인</h1>
+      {error && (
+        <div className="error">
+          <p>{error}</p>
+        </div>
+      )}
+
       <form onSubmit={handleSubmit(onSubmit, onError)}>
         <label>이메일</label>
         <input
@@ -46,6 +94,7 @@ const Login = () => {
 
         <label>비밀번호</label>
         <input
+          autoComplete="off"
           type="password"
           placeholder="비밀번호를 입력해주세요"
           name="password"
@@ -84,6 +133,17 @@ const LoginWrapper = styled.div`
   h1 {
     font-size: 3rem;
     margin-bottom: 3rem;
+  }
+
+  // error창
+  .error {
+    border: 1.5px dotted ${color.medium_gray2};
+    border-radius: 1rem;
+    padding: 2rem;
+    & > p {
+      font-size: 1.4rem;
+      color: ${color.Main};
+    }
   }
 
   form {
