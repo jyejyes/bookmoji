@@ -4,6 +4,8 @@ import DeleteUserModal from "../Users/ModalContent/DeleteUserModal";
 import LogoutModal from "../Users/ModalContent/LogoutModal";
 import { color } from "../style/theme";
 import ReviewModal from "../ReviewModal";
+import ChangeInfoModal from "../Users/ModalContent/ChangeNicknameModal";
+import ChangePwModal from "../Users/ModalContent/ChangePwModal";
 
 // 함수 props 로 넘기기
 const Modal = ({ handleOpenModal, whatBtn, isbn }) => {
@@ -20,6 +22,8 @@ const Modal = ({ handleOpenModal, whatBtn, isbn }) => {
         {whatBtn === "book" && (
           <ReviewModal isbn={isbn} handleOpenModal={handleOpenModal} />
         )}
+        {whatBtn === "changeName" && <ChangeInfoModal />}
+        {whatBtn === "changePw" && <ChangePwModal />}
       </div>
     </ModalWrapper>
   );
