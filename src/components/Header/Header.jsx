@@ -3,23 +3,25 @@ import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { ReactComponent as Logo } from "../../svg/logo.svg";
 import { ReactComponent as Search } from "../../svg/ic-search.svg";
-import { blackButton, color, flexCenter, whiteButton } from "../style/theme";
+import {
+  blackButton,
+  color,
+  flexCenter,
+  mainColorButton,
+  whiteButton,
+} from "../style/theme";
 
 const Header = () => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
 
-  const onClickLogo = () => {
-    navigate("/");
+  const onClickNavigate = (e) => {
+    if (e.target.name === "logo") navigate("/");
+    if (e.target.name === "auth") navigate(`/auth/${e.target.value}`);
+    if (e.target.name === "users") navigate(`/users`);
+    if (e.target.name === "collect") navigate("/collect");
   };
 
-  const onClickAuth = (e) => {
-    navigate(`/auth/${e.target.value}`);
-  };
-
-  const onClickUser = () => {
-    navigate(`/users`);
-  };
   const onInputSearch = (e) => {
     setSearch(e.target.value);
   };
@@ -29,12 +31,12 @@ const Header = () => {
       navigate(`/search/${search}`);
     }
   };
-  // 로그인 유무 임시
-  const [isLogin, setIsLogin] = useState(false);
+  // 로그인 유무 임시판별
+  const [isLogin, setIsLogin] = useState(localStorage.getItem("jwt"));
   return (
     <HeaderWrapper>
       <div>
-        <LogoStyle onClick={onClickLogo} />
+        <LogoStyle onClick={() => navigate("/")} name="logo" />
         <div className="search-auth">
           <div className="search">
             <SearchStyle />
@@ -46,27 +48,40 @@ const Header = () => {
               value={search}
             />
           </div>
-          {isLogin ? (
+          {!isLogin ? (
             // 로그인 안했을 때
             <>
               <button
                 className="register"
-                onClick={onClickAuth}
+                onClick={onClickNavigate}
                 value="register"
+                name="auth"
               >
                 회원가입
               </button>
-              <button className="login" onClick={onClickAuth} value="login">
+              <button
+                className="login"
+                onClick={onClickNavigate}
+                value="login"
+                name="auth"
+              >
                 로그인
               </button>
             </>
           ) : (
             // 로그인 했을 때
             <>
-              <button className="move-record">감상 남기기</button>
+              <button
+                className="move-record"
+                name="collect"
+                onClick={onClickNavigate}
+              >
+                모아보기
+              </button>
               <img
-                onClick={onClickUser}
+                onClick={onClickNavigate}
                 className="user"
+                name="users"
                 src="https://an2-glx.amz.wtchn.net/assets/default/user/photo_file_name_small-ab0a7f6a92a282859192ba17dd4822023e22273e168c2daf05795e5171e66446.jpg"
               />
             </>
@@ -110,7 +125,7 @@ const HeaderWrapper = styled.header`
       }
     }
     .register {
-      ${blackButton}
+      ${mainColorButton}
     }
     .login {
       ${whiteButton}
