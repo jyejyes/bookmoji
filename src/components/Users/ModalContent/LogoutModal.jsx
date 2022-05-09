@@ -1,17 +1,23 @@
 import React from "react";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
-import {
-  color,
-  mainColorButton,
-  whiteButton,
-} from "../../style/theme";
+import { color, mainColorButton, whiteButton } from "../../style/theme";
 
 const LogoutModal = ({ handleOpenModal }) => {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("jwt");
+    localStorage.removeItem("userIdx");
+    navigate("/");
+  };
+
   return (
     <LogoutModalStyle>
       <h2>계정 로그아웃을 하시겠습니까?</h2>
       <div className="buttons">
-        <button className="action">로그아웃</button>
+        <button className="action" onClick={handleLogout}>
+          로그아웃
+        </button>
         <button className="cancel" onClick={handleOpenModal}>
           취소
         </button>
