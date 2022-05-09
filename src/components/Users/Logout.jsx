@@ -18,11 +18,9 @@ const Logout = () => {
       <LogoutWrapper>
         <h2>계정 로그아웃</h2>
         <p>계정 로그아웃은 언제든지 다시 돌아올 수 있습니다. </p>
-        <UserButton
-          onClick={handleOpenModal}
-          name="logout"
-          content="계정 로그아웃"
-        />
+        <button onClick={handleOpenModal} name="logout">
+          계정 로그아웃
+        </button>
       </LogoutWrapper>
       {isModalOpen && (
         <Modal handleOpenModal={handleOpenModal} whatBtn={clickWhatBtn} />
@@ -39,6 +37,10 @@ const LogoutWrapper = styled.div`
   border-top: 1px solid ${color.medium_gray};
   & > h2 {
     ${userSubject}
+  }
+  & > button {
+    ${userButton}
+    border: 1px solid red;
   }
 
   & > p {

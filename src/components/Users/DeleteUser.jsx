@@ -22,11 +22,9 @@ const DeleteUser = () => {
     <DeleteWrapper>
       <h2>계정 탈퇴</h2>
       <p>계정 탈퇴는 계정을 다시 복구할 수 없습니다.</p>
-      <UserButton
-        onClick={handleOpenModal}
-        name="deleteuser"
-        content="계정 탈퇴"
-      />
+      <button onClick={handleOpenModal} name="deleteuser">
+        계정 탈퇴
+      </button>
 
       {isModalOpen && (
         <Modal handleOpenModal={handleOpenModal} whatBtn={clickWhatBtn} />
@@ -43,7 +41,10 @@ const DeleteWrapper = styled.div`
   & > h2 {
     ${userSubject}
   }
-
+  & > button {
+    ${userButton}
+    border:1px solid red;
+  }
   & > p {
     ${userText}
   }

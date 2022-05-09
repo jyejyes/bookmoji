@@ -1,16 +1,63 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { apiClient } from "../../api/apiClient";
 import { color } from "../../components/style/theme";
 
 const UserInfo = () => {
+  //회원정보 state
+  const [loading, setLoading] = useState(false);
+  const [userInfo, setUserInfo] = useState({ nickname: "", profileUrl: "" });
+  const userIdx = localStorage.getItem("userIdx");
+
+  //회원정보 api
+  const userInfoApi = async () => {
+    try {
+      setLoading(true);
+      const res = await apiClient.get(`users/info?userIdx=${userIdx}`);
+      setUserInfo({
+        nickname: res.data.result.nickname,
+        profileUrl: res.data.result.profileUrl,
+      });
+      setLoading(false);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  //실행
+  useEffect(() => {
+    userInfoApi();
+  }, []);
+
   return (
     <UserInfoWrapper>
-      <img
-        src="https://an2-glx.amz.wtchn.net/assets/default/user/photo_file_name_small-ab0a7f6a92a282859192ba17dd4822023e22273e168c2daf05795e5171e66446.jpg"
-        alt="유저 이미지"
-        className="user-image"
-      />
-      <p className="name">브리</p>
+      {!loading ? (
+        userInfo.profileUrl ? (
+          <img
+            src={userInfo.profileUrl}
+            alt="유저이미지"
+            className="user-image"
+          />
+        ) : (
+          <img
+            src="https://an2-glx.amz.wtchn.net/assets/default/user/photo_file_name_small-ab0a7f6a92a282859192ba17dd4822023e22273e168c2daf05795e5171e66446.jpg"
+            alt="유저이미지"
+            className="user-image"
+          />
+        )
+      ) : (
+        <img
+          src="https://an2-glx.amz.wtchn.net/assets/default/user/photo_file_name_small-ab0a7f6a92a282859192ba17dd4822023e22273e168c2daf05795e5171e66446.jpg"
+          alt="유저 이미지"
+          className="user-image"
+        />
+      )}
+
+      {!loading ? (
+        <p className="name">{userInfo.nickname}</p>
+      ) : (
+        <p className="name">-</p>
+      )}
     </UserInfoWrapper>
   );
 };

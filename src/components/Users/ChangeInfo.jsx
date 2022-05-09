@@ -1,16 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { color, userButton, userSubject } from "../../components/style/theme";
+import Modal from "../common/Modal";
 import UserButton from "../common/UserButton";
 
 const ChangeInfo = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [clickWhatBtn, setClickWhatBtn] = useState("");
+
+  const handleOpenModal = (e) => {
+    setIsModalOpen(!isModalOpen);
+    setClickWhatBtn(e.target.name);
+  };
   return (
     <ChangeInfoWrapper>
       <h2>개인정보 수정</h2>
       <p>닉네임 변경</p>
-      <UserButton className="name" content="닉네임 변경" />
+      <UserButton
+        className="name"
+        content="닉네임 변경"
+        name="changeName"
+        onClick={handleOpenModal}
+      />
       <p>비밀번호 변경</p>
-      <UserButton className="password" content="비밀번호 변경" />
+      <UserButton
+        className="password"
+        content="비밀번호 변경"
+        name="changePw"
+        onClick={handleOpenModal}
+      />
+      {isModalOpen && (
+        <Modal handleOpenModal={handleOpenModal} whatBtn={clickWhatBtn} />
+      )}
     </ChangeInfoWrapper>
   );
 };
