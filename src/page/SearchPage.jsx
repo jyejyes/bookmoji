@@ -34,7 +34,6 @@ const SearchPage = () => {
     };
     setLoading(true);
     const resultData = await bookSearch(params);
-    console.log(resultData);
     setBooks(resultData.data.documents);
     setEndPage(Math.ceil(resultData.data.meta.pageable_count / limit));
     setLoading(false);
