@@ -106,13 +106,13 @@ const Register = () => {
           autoComplete="off"
           type="password"
           placeholder="비밀번호와 동일하게 입력해주세요"
-          name="psCheck"
-          {...register("psCheck", {
+          name="pwCheck"
+          {...register("pwCheck", {
             required: "비밀번호 확인을 입력해주세요.",
             validate: (value) => value === pw.current,
           })}
         />
-        {errors.psCheck && errors.psCheck.type == "validate" && (
+        {errors.pwCheck && errors.pwCheck.type == "validate" && (
           <ErrorMessage>비밀번호가 일치하지 않습니다.</ErrorMessage>
         )}
         <label>닉네임</label>

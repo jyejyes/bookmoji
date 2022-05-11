@@ -32,7 +32,7 @@ const Login = () => {
       if (res.data.isSuccess) {
         navigate("/");
         // jwt 토큰 값 로컬에 저장,,
-        console.log(res.data.result.jwt);
+        axios.defaults.headers.common.Authorization = `JWT ${res.data.result.jwt}`;
         localStorage.setItem("jwt", res.data.result.jwt);
         localStorage.setItem("userIdx", res.data.result.userIdx);
       }
