@@ -26,6 +26,7 @@ const CollectPage = () => {
       const res = await apiClient.get(
         `/reviews?userIdx=${localStorage.getItem("userIdx")}`
       );
+      console.log(res.data.result);
       setResult(res.data.result);
       setLoading(false);
     } catch (e) {
@@ -49,22 +50,23 @@ const CollectPage = () => {
             <></>
           ) : (
             <div className="books">
-              {result.map((item, index) => (
-                <div className="book" key={item.reviewIdx}>
-                  <img
-                    src={item.thumbnailUrl}
-                    onClick={handleOpenModal}
-                    name={item.reviewIdx}
-                  />
-                  <p onClick={handleOpenModal} name={item.reviewIdx}>
-                    {item.title}
-                  </p>
-                  <div className="emoji-review">
-                    <span className="emoji">{item.emoji.split(" ")[0]}</span>
-                    <span className="text">{item.emoji.split(" ")[1]}</span>
+              {result &&
+                result.map((item, index) => (
+                  <div className="book" key={item.reviewIdx}>
+                    <img
+                      src={item.thumbnailUrl}
+                      onClick={handleOpenModal}
+                      name={item.reviewIdx}
+                    />
+                    <p onClick={handleOpenModal} name={item.reviewIdx}>
+                      {item.title}
+                    </p>
+                    <div className="emoji-review">
+                      <span className="emoji">{item.emoji.split(" ")[0]}</span>
+                      <span className="text">{item.emoji.split(" ")[1]}</span>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
           )}
           {isModalOpen && (
@@ -116,10 +118,9 @@ const Wrapper = styled.div`
     }
   }
   .book {
+    width: 15rem;
     position: relative;
     margin-right: 1.5rem;
-    // border: 1px solid red;
-
     & > img {
       width: 15rem;
       border: 1px solid ${color.medium_gray};
@@ -144,8 +145,6 @@ const Wrapper = styled.div`
     .text {
       font-size: 1.3rem;
       color: #ffa500;
-      // font-weight: 900;
-      // font-family: "LeferiBaseType-BoldA";
     }
   }
 `;

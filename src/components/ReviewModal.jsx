@@ -18,7 +18,7 @@ const ReviewModal = ({ isbn, handleOpenModal }) => {
     { emo: "😆", text: "재밌어요", select: false },
     { emo: "🤓", text: "유익해요", select: false },
     { emo: "😭", text: "슬퍼요", select: false },
-    { emo: "🤔", text: "생각이 많아져요", select: false },
+    { emo: "🤔", text: "생각이많아져요", select: false },
     { emo: "🤯", text: "어려워요", select: false },
     { emo: "🥱", text: "재미없어요", select: false },
     { emo: "😱", text: "무서워요", select: false },
@@ -46,7 +46,7 @@ const ReviewModal = ({ isbn, handleOpenModal }) => {
   const saveReviewApi = async () => {
     try {
       const res = await apiClient.post("reviews", {
-        emoji: `${selectEmoji} `,
+        emoji: selectEmoji,
         text: reviewText,
         isbn: result.isbn,
         userIdx: localStorage.getItem("userIdx"),
@@ -111,8 +111,8 @@ const ReviewModal = ({ isbn, handleOpenModal }) => {
                   key={index}
                   name={item.emo}
                   value={item.text}
-                  selectValue={selectEmoji}
                   onClick={handleClickEmoji}
+                  select={item.select}
                 >
                   {item.emo}
                   <p className="emo-text">{item.text}</p>
@@ -196,6 +196,7 @@ const EmojiBtn = styled.button`
   font-size: 4rem;
   padding: 0.5rem 1rem;
   border-radius: 1rem;
+
   &:hover {
     background: ${color.light_gray2};
   }
