@@ -41,7 +41,7 @@ const LoginWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
 
-  section {
+  & > section {
     width: 100%;
     height: 100%;
     ${flexCenter}
@@ -76,9 +76,13 @@ const LoginWrapper = styled.div`
 
 const LogoStyle = styled(Logo)`
   position: absolute;
-  margin: 0 2.5%;
-  fill: ${(props) => (props.auth === "login" ? "white" : "black")};
+  margin: 0 3.7%;
+  fill: ${(props) => (props.auth === "login" ? "white" : `${color.Main}`)};
   transition: fill 0.5s ease;
   z-index: 50;
   cursor: pointer;
 `;
+
+//사진
+// https://images.unsplash.com/photo-1607684442857-515a6017aaac?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80
+// https://ifh.cc/g/YToQKY.jpg

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useEffect } from "react";
 import styled from "styled-components";
 import CollectSubject from "../components/Collect/CollectSubject";
@@ -11,6 +11,7 @@ const CollectPage = () => {
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState("");
   const [whatBtn, setWhatBtn] = useState("");
+  const [reviewIdx, setReviewIdx] = useState("");
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -33,8 +34,9 @@ const CollectPage = () => {
   };
 
   //책 클릭하면 리뷰 적힌 모달 나오는 함수
-  const handleOpenModal = () => {
+  const handleOpenModal = (e) => {
     setIsModalOpen(!isModalOpen);
+    setReviewIdx(e.target.name); //review인덱스 값을 모달창 으로 넘겨주기 위함
   };
 
   return (
@@ -48,9 +50,15 @@ const CollectPage = () => {
           ) : (
             <div className="books">
               {result.map((item, index) => (
-                <div className="book" key={index}>
-                  <img src={item.thumbnailUrl} onClick={handleOpenModal} />
-                  <p onClick={handleOpenModal}>{item.title}</p>
+                <div className="book" key={item.reviewIdx}>
+                  <img
+                    src={item.thumbnailUrl}
+                    onClick={handleOpenModal}
+                    name={item.reviewIdx}
+                  />
+                  <p onClick={handleOpenModal} name={item.reviewIdx}>
+                    {item.title}
+                  </p>
                   <div className="emoji-review">
                     <span className="emoji">{item.emoji.split(" ")[0]}</span>
                     <span className="text">{item.emoji.split(" ")[1]}</span>
@@ -60,7 +68,11 @@ const CollectPage = () => {
             </div>
           )}
           {isModalOpen && (
-            <Modal handleOpenModal={handleOpenModal} whatBtn="book-collect" />
+            <Modal
+              handleOpenModal={handleOpenModal}
+              whatBtn="book-collect"
+              reviewIdx={reviewIdx}
+            />
           )}
         </section>
         {/* 나중에 위시 추가 할수도 있으니까*/}
@@ -89,7 +101,7 @@ const Wrapper = styled.div`
   main {
     width: 93%;
   }
-  section {
+  main > section {
     padding: 3rem 0;
     border-bottom: 1px solid ${color.medium_gray};
   }
