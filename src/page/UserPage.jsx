@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Modal from "../components/common/Modal";
 import Header from "../components/Header/Header";
 import { flexCenter } from "../components/style/theme";
-import ChangeInfo from "./Users/ChangeInfo";
-import DeleteUser from "./Users/DeleteUser";
-import Logout from "./Users/Logout";
-import UserInfo from "./Users/UserInfo";
+import UserInfo from "../components/Users/UserInfo";
+import ChangeInfo from "../components/Users/ChangeInfo";
+import Logout from "../components/Users/Logout";
+import DeleteUser from "../components/Users/DeleteUser";
 
 const UserPage = () => {
   return (

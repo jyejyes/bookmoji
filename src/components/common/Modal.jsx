@@ -6,11 +6,13 @@ import { color } from "../style/theme";
 import ReviewModal from "../ReviewModal";
 import ChangeInfoModal from "../Users/ModalContent/ChangeNicknameModal";
 import ChangePwModal from "../Users/ModalContent/ChangePwModal";
+import ReadReviewModal from "../Collect/ReadReviewModal";
 
 // 함수 props 로 넘기기
-const Modal = ({ handleOpenModal, whatBtn, isbn }) => {
+const Modal = ({ handleOpenModal, whatBtn, isbn, reviewIdx }) => {
   // 모달 오픈시 배경 화면 스크롤 방지 - 일단은 필요없어서 주석처리함
   // document.body.style.overflow = "hidden";
+
   return (
     <ModalWrapper>
       <BackModal onClick={handleOpenModal} />
@@ -21,6 +23,13 @@ const Modal = ({ handleOpenModal, whatBtn, isbn }) => {
         {whatBtn === "deleteuser" && <DeleteUserModal />}
         {whatBtn === "book" && (
           <ReviewModal isbn={isbn} handleOpenModal={handleOpenModal} />
+        )}
+        {whatBtn === "book-collect" && (
+          <ReadReviewModal
+            isbn={isbn}
+            handleOpenModal={handleOpenModal}
+            reviewIdx={reviewIdx}
+          />
         )}
         {whatBtn === "changeName" && <ChangeInfoModal />}
         {whatBtn === "changePw" && <ChangePwModal />}

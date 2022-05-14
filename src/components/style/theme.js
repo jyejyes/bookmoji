@@ -15,7 +15,7 @@ export const color = {
   dark_gray: "#777777",
   dark_gray2: "#484848",
   medium_gray: "#dddddd",
-  medium_gray2: "#9c9c9c",
+  medium_gray2: "#989898",
   red: "",
 };
 
@@ -25,7 +25,7 @@ export const blackButton = css`
   border-radius: 2.5rem;
   padding: 0.8rem 1rem;
   color: ${color.white};
-  background: ${color.Main};
+  background: ${color.black};
   &:hover {
     background: ${color.dark_gray2};
   }
@@ -91,6 +91,43 @@ export const authButton = css`
   font-size: 1.5rem;
   width: 100%;
   &:focus {
+    outline: none;
+  }
+`;
+
+export const userSubject = css`
+  font-family: "LeferiBaseType-BoldA";
+  font-size: 1.6rem;
+`;
+
+export const userButton = css`
+  box-sizing: border-box;
+  font-size: 1.5rem;
+  border: 1px solid ${color.medium_gray2};
+  border-radius: 1rem;
+  color: ${color.dark_gray2};
+  padding: 1rem 2rem;
+  backgruond: ${color.white};
+
+  &:active {
+    transform: scale(0.96);
+  }
+`;
+
+export const userText = css`
+  font-size: 1.5rem;
+  color: ${color.medium_gray2};
+  margin: 2rem 0;
+`;
+
+export const changeInput = css`
+  border: 1px solid ${color.medium_gray};
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  padding: 1rem 1.2rem;
+
+  &:focus {
+    border: 1px solid ${color.Main};
     outline: none;
   }
 `;
