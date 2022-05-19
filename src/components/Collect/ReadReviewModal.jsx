@@ -37,6 +37,11 @@ const ReadReviewModal = ({ reviewIdx, handleOpenModal }) => {
         emoji: result.emoji,
         text: newText,
       });
+
+      // 리뷰 수정 성공시
+      if (res.data.isSuccess) alert("리뷰가 수정되었습니다");
+      // 리뷰 수정 실패시 에러 처리
+      if (res.data.code !== 1000) alert(res.data.message);
     } catch (e) {
       console.log(e);
     }
@@ -50,6 +55,7 @@ const ReadReviewModal = ({ reviewIdx, handleOpenModal }) => {
       );
       console.log(res);
       if (res.data.code === 1000) {
+        alert("리뷰가 삭제되었습니다");
         handleOpenModal();
       }
     } catch (e) {
