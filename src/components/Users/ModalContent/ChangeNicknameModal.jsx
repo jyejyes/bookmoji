@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { isValidElement, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { apiClient } from "../../../api/apiClient";
@@ -32,7 +32,7 @@ const ChangeNicknameModal = () => {
         userIdx: userIdx,
         nickname: newNickname,
       });
-      console.log(res);
+      if (res.data.isSuccess) alert(res.data.message);
     } catch (e) {
       console.log(e);
     }

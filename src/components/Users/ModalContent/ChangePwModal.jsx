@@ -44,7 +44,10 @@ const ChangePwModal = () => {
         currentPassword: currentPassword,
         newPassword: newPassword,
       });
-      if (res.data.isSuccess) setSuccess(res.data.result);
+      if (res.data.isSuccess) {
+        setSuccess(res.data.result);
+        if (res.data.isSuccess) alert(res.data.message);
+      }
       if (res.data.code === 3017 || res.data.code === 3018)
         setError(res.data.message);
     } catch (e) {
