@@ -23,7 +23,6 @@ const ReviewCollect = () => {
       const res = await apiClient.get(
         `/reviews?userIdx=${localStorage.getItem("userIdx")}`
       );
-      console.log(res.data.result);
       setResult(res.data.result);
       setLoading(false);
     } catch (e) {
