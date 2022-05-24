@@ -9,6 +9,7 @@ const ReviewCollect = () => {
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState("");
   const [reviewIdx, setReviewIdx] = useState("");
+  const [noReview, setNoReview] = useState(true);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -25,6 +26,8 @@ const ReviewCollect = () => {
       );
       setResult(res.data.result);
       setLoading(false);
+      setNoReview(false);
+      if (res.data.code === 3019) setNoReview(true);
     } catch (e) {
       console.log(e);
     }
@@ -39,8 +42,10 @@ const ReviewCollect = () => {
   return (
     <Section className="review">
       <CollectSubject content="감상 모아보기" />
-      {loading ? (
-        <></>
+      {noReview ? (
+        <Wrapper>
+          <p className="no-review-text">작성한 리뷰가 없어요 😭</p>
+        </Wrapper>
       ) : (
         <div className="books">
           {result &&
@@ -118,5 +123,17 @@ const Section = styled.section`
       font-size: 1.3rem;
       color: #ffa500;
     }
+  }
+`;
+
+const Wrapper = styled.div`
+  padding-bottom: 5rem;
+  .no-review-text {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+
+    color: ${color.medium_gray2};
+    font-size: 1.4rem;
   }
 `;

@@ -22,7 +22,7 @@ export default Report;
 
 const Section = styled.section`
   padding: 3rem 0 5rem 0;
-
+  position: relative;
   border-bottom: 1px solid ${color.medium_gray};
   .charts {
     margin: 1rem 5rem 0 5rem;

@@ -1,7 +1,9 @@
 import { ArcElement, Chart, Legend, Tooltip } from "chart.js";
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 import { Pie } from "react-chartjs-2";
 import { apiClient } from "../../api/apiClient";
+import { color } from "../style/theme";
 
 Chart.register(ArcElement, Tooltip, Legend);
 
@@ -60,10 +62,26 @@ const PieChart = () => {
   };
 
   return noReview ? (
-    <p className="no-review-text">작성한 리뷰가 없어 통계를 낼 수 없어요 😭</p>
+    <Wrapper>
+      <p className="no-review-text">
+        작성한 리뷰가 없어 통계를 낼 수 없어요 😭
+      </p>
+    </Wrapper>
   ) : (
     <Pie data={data} />
   );
 };
 
 export default PieChart;
+
+const Wrapper = styled.div`
+  padding-bottom: 5rem;
+  .no-review-text {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+
+    color: ${color.medium_gray2};
+    font-size: 1.4rem;
+  }
+`;
