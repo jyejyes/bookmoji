@@ -56,6 +56,7 @@ const ReadReviewModal = ({ reviewIdx, handleOpenModal }) => {
       console.log(res);
       if (res.data.code === 1000) {
         alert("리뷰가 삭제되었습니다");
+        window.location.reload();
         handleOpenModal();
       }
     } catch (e) {
