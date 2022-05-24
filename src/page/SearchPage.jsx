@@ -153,7 +153,6 @@ const SearchWrapper = styled.div`
   .no-result {
     width: 100%;
     position: absolute;
-    top: 50%;
     left: 0;
     color: ${color.medium_gray2};
     text-align: center;
@@ -170,7 +169,7 @@ const SearchWrapper = styled.div`
 
     width: 90%;
     height: 100%;
-    margin: 2rem 0;
+    margin: 4rem 0;
 
     .each-book {
       .book-image {
