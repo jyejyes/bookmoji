@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { color } from "../style/theme";
+import BarChart from "./BarChart";
 import CollectSubject from "./CollectSubject";
 import PieChart from "./PieChart";
 
@@ -13,6 +14,7 @@ const Report = () => {
       </select>
       <div className="charts">
         <PieChart />
+        <BarChart />
       </div>
     </Section>
   );
@@ -26,6 +28,8 @@ const Section = styled.section`
   border-bottom: 1px solid ${color.medium_gray};
   .charts {
     margin: 1rem 5rem 0 5rem;
-    width: 40rem;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-gap: 10rem;
   }
 `;
