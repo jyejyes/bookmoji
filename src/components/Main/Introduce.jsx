@@ -19,7 +19,7 @@ export default Introduce;
 
 const Wrapper = styled.div`
   width: 100%;
-  margin: 4rem 0;
+  margin: 3rem 0 5rem 0;
   ${flexCenter}
   flex-direction: column;
 
