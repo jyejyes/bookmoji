@@ -11,7 +11,8 @@ https://docs.google.com/spreadsheets/d/1Asdpkb12oqxwLhNLJsmugVRGKjIvmrwlrwA1VUs1
 22.04.24 ~
 
 ### 👨‍👩‍👧‍👦 개발인원
-Front-end, 디자인 1명 (브리) , Back-end 1명(리엘)
+Front-end, 디자인 : <a href="https://github.com/jyejyes">브리</a>    
+Back-end : <a href="https://github.com/shj718">리엘</a>
 
 ### 💬 프론트엔드 사용기술
 React, Styled-components, Redux, Router, React-hook-form
