@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { color } from "../style/theme";
+import { color, device } from "../style/theme";
 
 const MainDisscription = ({ content }) => {
   return <Discription>{content}</Discription>;
@@ -11,8 +11,18 @@ const Discription = styled.h3`
   font-size: 2rem;
   font-family: "LeferiPoint-WhiteA";
   color: ${color.dark_gray2};
-  width: 50rem;
+  width: 90%;
   text-align: center;
   word-break: keep-all;
   line-height: 3.5rem;
+
+  @media ${device.tablet} {
+    font-size: 1.8rem;
+    line-height: 3rem;
+  }
+
+  @media ${device.mobile} {
+    font-size: 1.5rem;
+    line-height: 2.2rem;
+  }
 `;

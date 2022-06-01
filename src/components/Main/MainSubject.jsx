@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { color } from "../style/theme";
+import { color, device } from "../style/theme";
 
 const MainSubject = ({ content }) => {
   return <Subject>{content}</Subject>;
@@ -12,8 +12,17 @@ const Subject = styled.h1`
   font-family: LeferiBaseType-BoldA;
   color: ${color.Main};
   width: 40rem;
-  margin: 1.5rem 0;
   text-align: center;
   word-break: keep-all;
-  line-height: 5.5rem;
+  margin-bottom: 2rem;
+
+  @media ${device.tablet} {
+    font-size: 3.4rem;
+    margin-bottom: 1.6rem;
+  }
+
+  @media ${device.mobile} {
+    font-size: 3rem;
+    margin-bottom: 1.2rem;
+  }
 `;

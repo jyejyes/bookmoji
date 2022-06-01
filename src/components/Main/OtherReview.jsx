@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { apiClient } from "../../api/apiClient";
-import { color, flexCenter } from "../style/theme";
+import { color, device, flexCenter } from "../style/theme";
 import MainDisscription from "./MainDiscription";
 import MainSubject from "./MainSubject";
 import { ReactComponent as Like } from "../../svg/ic-heart.svg";
@@ -47,7 +47,8 @@ const OtherReview = () => {
           <></>
         ) : (
           <>
-            <MainSubject content="다른 사람의 감상을 구경할 수 있어요" />
+            <MainSubject content="다른 사람의 감상을" />
+            <MainSubject content="구경할 수 있어요" />
             <MainDisscription content="리뷰에 남겨진 감상에 공감한다면 하트를 눌러주세요 !" />
             <BooksStyle>
               {result.map((item, index) => (
@@ -88,40 +89,68 @@ const Wrapper = styled.div`
   ${flexCenter}
   flex-direction: column;
   padding-bottom: 10rem;
-
-  .non-login-others {
-    padding: 1rem;
-    font-size: 2rem;
-  }
 `;
 
 const BooksStyle = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-gap: 3rem;
+  grid-gap: 2rem;
   margin-top: 5rem;
+
   .book {
     border: 1.5px solid ${color.light_gray2};
     border-radius: 0.5rem;
+    width: 100%;
+    padding-bottom: 55%;
     overflow: hidden;
-    display: flex;
+    display: grid;
+    grid-template-columns: 4fr 6fr;
     position: relative;
-    height: 15vw;
+
+    .img {
+      width: 40%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
 
     img {
       margin-right: 0.5rem;
-      width: 10.4vw;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
     }
     .title-content {
+      width: 60%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      right: 0;
+      overflow-y: scroll;
       padding: 1.2rem;
       .title {
         font-size: 1.5rem;
         margin-bottom: 0.5rem;
         line-height: 2.2rem;
+
+        @media ${device.tablet} {
+          font-size: 1.4rem;
+          line-height: 2rem;
+        }
+        @media ${device.mobile} {
+          font-size: 1.3rem;
+          line-height: 1.7rem;
+        }
       }
       .emoji {
         font-size: 2rem;
+        @media ${device.tablet} {
+          font-size: 1.8rem;
+        }
       }
       .emoji-text {
         font-size: 1.4rem;
@@ -131,6 +160,12 @@ const BooksStyle = styled.div`
         color: ${color.dark_gray};
         font-size: 1.2rem;
         margin-bottom: 1rem;
+        @media ${device.tablet} {
+          font-size: 1.1rem;
+        }
+        @media ${device.mobile} {
+          font-size: 1.1rem;
+        }
       }
       .text {
         margin-top: 1rem;
@@ -139,6 +174,18 @@ const BooksStyle = styled.div`
         margin-bottom: 1rem;
       }
     }
+  }
+
+  //태블릿
+  @media ${device.tablet} {
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 1rem;
+  }
+
+  //모바일
+  @media ${device.mobile} {
+    grid-template-columns: repeat(1, 1fr);
+    grid-gap: 1rem;
   }
 `;
 

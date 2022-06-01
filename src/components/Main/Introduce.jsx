@@ -7,7 +7,8 @@ import MainSubject from "./MainSubject";
 const Introduce = () => {
   return (
     <Wrapper>
-      <MainSubject content="후기에 감정만을 담아보세요" />
+      <MainSubject content="후기에 감정만을" />
+      <MainSubject content="담아보세요" />
       <MainDisscription content="매번 달라지던 별점이 아닌" />
       <MainDisscription content="온전한 당신의 마음을 후기에 담아보세요 !" />
       <img src="https://velog.velcdn.com/images/jh100m1/post/21355425-26ff-4964-a69a-d8446af9fcb9/image.png" />
