@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Modal from "../common/Modal";
 import UserButton from "../common/UserButton";
-import { color, userButton, userSubject, userText } from "../style/theme";
+import {
+  color,
+  device,
+  userButton,
+  userSubject,
+  userText,
+} from "../style/theme";
 
 const Logout = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -45,5 +51,10 @@ const LogoutWrapper = styled.div`
 
   & > p {
     ${userText}
+    @media ${device.mobile} {
+      font-size: 1.4rem;
+      word-break: keep-all;
+      line-height: 2rem;
+    }
   }
 `;

@@ -75,6 +75,9 @@ const Wrapper = styled.div`
   ${flexCenter}
   flex-direction: column;
   & > h2 {
+    width: 27rem;
+    text-align: center;
+
     color: ${color.dark_gray2};
     font-size: 1.6rem;
   }
@@ -85,6 +88,7 @@ const Wrapper = styled.div`
     margin: 1rem 0;
     text-align: center;
     line-height: 2rem;
+    word-break: keep-all;
   }
 
   & > button {
@@ -127,7 +131,7 @@ const Wrapper = styled.div`
       content: "";
       position: absolute;
       top: 2.5px;
-      botton: 0;
+      bottom: 0;
       left: 2.5px;
       margin: auto 0;
       width: 11px;

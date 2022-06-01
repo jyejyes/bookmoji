@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { color, userButton, userSubject } from "../../components/style/theme";
+import {
+  color,
+  device,
+  userButton,
+  userSubject,
+} from "../../components/style/theme";
 import Modal from "../common/Modal";
 import UserButton from "../common/UserButton";
 
@@ -49,5 +54,8 @@ const ChangeInfoWrapper = styled.div`
     font-size: 1.5rem;
     color: ${color.dark_gray2};
     margin: 2rem 0 1rem 0;
+    @media ${device.mobile} {
+      font-size: 1.4rem;
+    }
   }
 `;

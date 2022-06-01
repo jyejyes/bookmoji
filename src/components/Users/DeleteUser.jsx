@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Modal from "../../components/common/Modal";
 import {
   color,
+  device,
   userButton,
   userSubject,
   userText,
@@ -47,5 +48,9 @@ const DeleteWrapper = styled.div`
   }
   & > p {
     ${userText}
+    @media ${device.mobile} {
+      font-size: 1.4rem;
+      word-break: keep-all;
+    }
   }
 `;

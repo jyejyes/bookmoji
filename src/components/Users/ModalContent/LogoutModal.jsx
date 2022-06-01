@@ -13,7 +13,7 @@ const LogoutModal = ({ handleOpenModal }) => {
 
   return (
     <LogoutModalStyle>
-      <h2>계정 로그아웃을 하시겠습니까?</h2>
+      <h2>로그아웃을 하시겠습니까?</h2>
       <div className="buttons">
         <button className="action" onClick={handleLogout}>
           로그아웃
@@ -34,7 +34,7 @@ const LogoutModalStyle = styled.div`
     font-size: 1.6rem;
   }
   .buttons {
-    width: 100%;
+    width: 20rem;
     margin-top: 3rem;
     display: grid;
     grid-template-columns: 1fr 1fr;

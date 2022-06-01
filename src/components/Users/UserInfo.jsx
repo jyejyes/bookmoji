@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { apiClient } from "../../api/apiClient";
-import { color } from "../../components/style/theme";
+import { color, device } from "../../components/style/theme";
 
 const UserInfo = () => {
   //회원정보 state
@@ -68,7 +68,7 @@ const UserInfoWrapper = styled.div`
   width: 100%;
   height: 15rem;
   position: relative;
-  background: url("https://previews.123rf.com/images/gmast3r/gmast3r1605/gmast3r160500005/55962922-%EC%82%B0-%EB%B2%94%EC%9C%84-%EC%97%AC%EB%A6%84-%EA%B0%80%EB%A1%9C-%EA%B0%80%EB%A1%9C-%EB%B0%B0%EB%84%88-%EB%B2%A1%ED%84%B0-%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8-%EB%A0%88%EC%9D%B4-%EC%85%98.jpg");
+  background: url("https://images.unsplash.com/photo-1507842217343-583bb7270b66?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2190ㅎ");
   margin-bottom: 10rem;
   position: relative;
   .user-image {
@@ -88,5 +88,8 @@ const UserInfoWrapper = styled.div`
     bottom: -50%;
     left: 50%;
     transform: translateX(-50%);
+    @media ${device.mobile} {
+      font-size: 2rem;
+    }
   }
 `;
