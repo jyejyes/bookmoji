@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Bar, Pie } from "react-chartjs-2";
 import { apiClient } from "../../api/apiClient";
-import { color, flexCenter } from "../style/theme";
+import { color, device, flexCenter } from "../style/theme";
 
 Chart.register(ArcElement, Tooltip, Legend);
 
@@ -82,5 +82,16 @@ const Wrapper = styled.div`
     width: 100%;
     height: 100%;
     ${flexCenter}
+  }
+  @media screen and (max-width: 920px) {
+    width: 60%;
+    margin-bottom: 5rem;
+  }
+  @media screen and (max-width: 700px) {
+    width: 80%;
+    margin-bottom: 5rem;
+  }
+  @media ${device.mobile} {
+    width: 95%;
   }
 `;

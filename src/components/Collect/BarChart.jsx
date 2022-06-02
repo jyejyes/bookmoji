@@ -11,6 +11,7 @@ import styled from "styled-components";
 import React, { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import { apiClient } from "../../api/apiClient";
+import { device } from "../style/theme";
 
 Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -75,4 +76,10 @@ export default BarChart;
 
 const Wrapper = styled.div`
   width: 100%;
+  @media screen and (max-width: 920px) {
+    width: 100%;
+  }
+  @media ${device.mobile} {
+    width: 100%;
+  }
 `;

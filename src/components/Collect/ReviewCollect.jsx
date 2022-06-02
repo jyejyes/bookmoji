@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { apiClient } from "../../api/apiClient";
 import Modal from "../common/Modal";
-import { color, flexCenter } from "../style/theme";
+import { color, device, flexCenter } from "../style/theme";
 import CollectSubject from "./CollectSubject";
 
 const ReviewCollect = () => {

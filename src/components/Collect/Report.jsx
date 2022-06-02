@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { color } from "../style/theme";
+import { color, device } from "../style/theme";
 import BarChart from "./BarChart";
 import CollectSubject from "./CollectSubject";
 import PieChart from "./PieChart";
@@ -31,5 +31,15 @@ const Section = styled.section`
     display: grid;
     grid-template-columns: 1fr 2fr;
     grid-gap: 10rem;
+    @media ${device.tablet} {
+      grid-gap: 3rem;
+    }
+    @media screen and (max-width: 920px) {
+      grid-template-columns: 1fr;
+    }
+    @media ${device.mobile} {
+      grid-template-columns: 1fr;
+      margin: 0;
+    }
   }
 `;
