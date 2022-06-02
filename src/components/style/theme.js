@@ -11,7 +11,7 @@ export const color = {
   black: "#151515",
   white: "#FFFFFF",
   light_gray: "#f5f5f5",
-  light_gray2: "#f2f2f2",
+  light_gray2: "#f0f0f0",
   dark_gray: "#777777",
   dark_gray2: "#484848",
   medium_gray: "#dddddd",
@@ -131,3 +131,15 @@ export const changeInput = css`
     outline: none;
   }
 `;
+
+export const size = {
+  mobile: "480px",
+  tablet: "1024px",
+  desktop: "1440px",
+};
+
+export const device = {
+  mobile: `screen and (max-width: ${size.mobile})`,
+  tablet: `screen and (max-width: ${size.tablet})`,
+  desktop: `screen and (max-width: ${size.desktop})`,
+};
