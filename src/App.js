@@ -12,7 +12,7 @@ import UserPage from "./page/UserPage";
 
 function App() {
   const AccessUsersPage = Access(UserPage, true);
-
+  const AccessCollectPage = Access(CollectPage, true);
   return (
     <>
       <GlobalStyle />
