@@ -32,7 +32,9 @@ const ChangeNicknameModal = () => {
         userIdx: userIdx,
         nickname: newNickname,
       });
-      if (res.data.isSuccess) alert(res.data.message);
+      if (res.data.isSuccess) {
+        alert(res.data.message);
+      }
     } catch (e) {
       console.log(e);
     }
