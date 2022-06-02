@@ -22,7 +22,7 @@ const Subject = styled.h1`
   }
 
   @media ${device.mobile} {
-    font-size: 3rem;
+    font-size: 2.8rem;
     margin-bottom: 1.2rem;
   }
 `;

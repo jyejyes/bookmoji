@@ -172,6 +172,9 @@ const BooksStyle = styled.div`
         font-size: 1.3rem;
         line-height: 2rem;
         margin-bottom: 1rem;
+        @media ${device.mobile} {
+          font-size: 1.2rem;
+        }
       }
     }
   }
