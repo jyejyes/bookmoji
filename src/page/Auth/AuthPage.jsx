@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
 import styled from "styled-components";
 import Auth from "../../components/Auth/Auth";
-import { color, flexCenter } from "../../components/style/theme";
+import { color, device, flexCenter } from "../../components/style/theme";
 import { ReactComponent as Logo } from "../../svg/logo.svg";
 
 const AuthPage = () => {
@@ -40,6 +40,7 @@ const LoginWrapper = styled.div`
   background-size: cover;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  position: relative;
 
   & > section {
     width: 100%;
@@ -76,11 +77,21 @@ const LoginWrapper = styled.div`
 
 const LogoStyle = styled(Logo)`
   position: absolute;
+  top: 0;
   margin: 0 3.7%;
   fill: ${(props) => (props.auth === "login" ? "white" : `${color.Main}`)};
   transition: fill 0.5s ease;
   z-index: 50;
   cursor: pointer;
+  width: 60px;
+  height: 60px;
+  @media ${device.tablet} {
+    fill: ${color.Main};
+  }
+  @media ${device.mobile} {
+    width: 55px;
+    height: 55px;
+  }
 `;
 
 //사진

@@ -6,10 +6,12 @@ import {
   authInput,
   authLabel,
   color,
+  device,
   flexCenter,
 } from "../style/theme";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import { apiClient } from "../../api/apiClient";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -22,19 +24,16 @@ const Login = () => {
   const loginApi = async (data) => {
     try {
       setLoading(true);
-      const res = await axios.post("https://bookmoji.site/users/login", data);
+      const res = await apiClient.post("users/login", data);
       setLoading(false);
       // 로딩 끝나면
-      if (!loading) {
-        setResultData(res);
-      }
-      //성공시
+      setResultData(res);
+
+      //로그인 성공시
       if (res.data.isSuccess) {
-        navigate("/");
-        // jwt 토큰 값 로컬에 저장,,
-        axios.defaults.headers.common.Authorization = `JWT ${res.data.result.jwt}`;
         localStorage.setItem("jwt", res.data.result.jwt);
         localStorage.setItem("userIdx", res.data.result.userIdx);
+        navigate("/");
       }
       // 에러
       if (
@@ -120,6 +119,9 @@ const Login = () => {
           로그인
         </button>
       </form>
+      <p className="move-register" onClick={() => navigate("/auth/register")}>
+        계정이 없으신가요?
+      </p>
     </LoginWrapper>
   );
 };
@@ -133,6 +135,9 @@ const LoginWrapper = styled.div`
   h1 {
     font-size: 3rem;
     margin-bottom: 3rem;
+    @media ${device.mobile} {
+      font-size: 2.6rem;
+    }
   }
 
   // error창
@@ -149,7 +154,15 @@ const LoginWrapper = styled.div`
   form {
     display: flex;
     flex-direction: column;
-    width: 40rem;
+    width: 30vw;
+
+    @media ${device.tablet} {
+      width: 60vw;
+    }
+    @media ${device.mobile} {
+      width: 80vw;
+    }
+
     label {
       ${authLabel}
     }
@@ -161,7 +174,7 @@ const LoginWrapper = styled.div`
       width: 100%;
       text-align: end;
       font-size: 1.3rem;
-      color: ${color.Main};
+      color: ${color.medium_gray2};
       margin-bottom: 2rem;
       cursor: pointer;
       &:hover {
@@ -170,6 +183,23 @@ const LoginWrapper = styled.div`
     }
     button {
       ${authButton};
+    }
+  }
+  .move-register {
+    width: 100%;
+    text-align: center;
+    font-size: 1.3rem;
+    color: ${color.Main};
+    margin-top: 2rem;
+    cursor: pointer;
+    display: none;
+    &:hover {
+      text-decoration: underline;
+    }
+
+    @media ${device.tablet} {
+      width: 60vw;
+      display: block;
     }
   }
 `;

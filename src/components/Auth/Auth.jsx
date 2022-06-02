@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { blackButton, color, flexCenter, whiteButton } from "../style/theme";
+import {
+  blackButton,
+  color,
+  device,
+  flexCenter,
+  whiteButton,
+} from "../style/theme";
 import Login from "./Login";
 import Register from "./Register";
 
@@ -24,4 +30,8 @@ const AuthWrapper = styled.div`
   ${(props) => (props.path === "login" ? "transform: translateX(100%)" : "")};
   transition: transform 0.5s ease;
   ${flexCenter}
+  @media ${device.tablet} {
+    width: 100%;
+    transform: translateX(0%);
+  }
 `;
