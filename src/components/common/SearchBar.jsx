@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
+import { addRecentSearch } from "../../store/actions/recentSearch";
 import { ReactComponent as Search } from "../../svg/ic-search.svg";
 import { color, device } from "../style/theme";
 
 const SearchBar = () => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
+  const dispatch = useDispatch();
+  const words = useSelector((state) => state.recentSearchReducer);
 
   const onInputSearch = (e) => {
     setSearch(e.target.value);
@@ -14,9 +18,16 @@ const SearchBar = () => {
 
   const onSubmitSearch = (e) => {
     if (e.key === "Enter") {
+      dispatch(addRecentSearch(search));
+      console.log(search);
       navigate(`/search/${search}`);
     }
   };
+
+  useEffect(() => {
+    console.log(words);
+  }, [words]);
+
   return (
     <SearchBarWrapper>
       <div className="search">

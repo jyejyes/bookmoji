@@ -3,7 +3,7 @@ import styled from "styled-components";
 import DeleteUserModal from "../Users/ModalContent/DeleteUserModal";
 import LogoutModal from "../Users/ModalContent/LogoutModal";
 import { color } from "../style/theme";
-import ReviewModal from "../ReviewModal";
+import ReviewModal from "../Review/ReviewModal";
 import ChangeInfoModal from "../Users/ModalContent/ChangeNicknameModal";
 import ChangePwModal from "../Users/ModalContent/ChangePwModal";
 import ReadReviewModal from "../Collect/ReadReviewModal";
