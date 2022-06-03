@@ -3,11 +3,13 @@ import { useEffect } from "react";
 import styled from "styled-components";
 import CollectSubject from "../components/Collect/CollectSubject";
 import Header from "../components/Header/Header";
-import { color, flexCenter } from "../components/style/theme";
+import { color, device, flexCenter } from "../components/style/theme";
 import { apiClient } from "../api/apiClient";
 import Modal from "../components/common/Modal";
 import ReviewCollect from "../components/Collect/ReviewCollect";
 import ReportCollect from "../components/Collect/Report";
+import FooterSection from "../components/Footer/Footer";
+import NavBar from "../components/common/NavBar";
 
 const CollectPage = () => {
   const [loading, setLoading] = useState(true);
@@ -43,6 +45,8 @@ const CollectPage = () => {
         {/* 감상 모아보기 */}
         <ReviewCollect />
       </main>
+      <NavBar />
+      <FooterSection />
     </Wrapper>
   );
 };

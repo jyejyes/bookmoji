@@ -7,6 +7,7 @@ import ChangeInfo from "../components/Users/ChangeInfo";
 import Logout from "../components/Users/Logout";
 import DeleteUser from "../components/Users/DeleteUser";
 import FooterSection from "../components/Footer/Footer";
+import NavBar from "../components/common/NavBar";
 
 const UserPage = () => {
   return (
@@ -18,6 +19,7 @@ const UserPage = () => {
         <Logout />
         <DeleteUser />
       </UserWrapper>
+      <NavBar />
       <FooterSection />
     </>
   );

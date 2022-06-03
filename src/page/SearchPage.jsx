@@ -4,9 +4,11 @@ import styled from "styled-components";
 import { bookSearch } from "../api/bookSearch";
 import LoadingSpinner from "../components/common/LoadingSpinner";
 import Modal from "../components/common/Modal";
+import NavBar from "../components/common/NavBar";
 import Pagination from "../components/common/Pagination";
+import FooterSection from "../components/Footer/Footer";
 import Header from "../components/Header/Header";
-import { color, flexCenter } from "../components/style/theme";
+import { color, device, flexCenter } from "../components/style/theme";
 
 const SearchPage = () => {
   const { bookName } = useParams();
@@ -130,6 +132,8 @@ const SearchPage = () => {
           </p>
         </>
       )}
+      <FooterSection />
+      <NavBar />
     </SearchWrapper>
   );
 };
@@ -198,10 +202,23 @@ const SearchWrapper = styled.div`
         margin: 0.5rem 0;
       }
     }
+
+    @media ${device.tablet} {
+      grid-template-columns: repeat(4, 1fr);
+      grid-gap: 1rem 1.5rem;
+    }
+    @media ${device.mobile} {
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 3rem 2rem;
+    }
   }
   .page-text {
     margin-bottom: 5rem;
     font-size: 1.2rem;
+
+    @media ${device.mobile} {
+      display: none;
+    }
   }
 `;
 
@@ -229,7 +246,10 @@ const PaginationWrapper = styled.nav`
       color: white;
       font-weight: bold;
       cursor: revert;
-      transform: revert;
+      // transform: revert;
     }
+  }
+  @media ${device.mobile} {
+    display: none;
   }
 `;

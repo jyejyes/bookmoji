@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
+import NavBar from "../components/common/NavBar";
 import FooterSection from "../components/Footer/Footer";
 import Header from "../components/Header/Header";
 import Introduce from "../components/Main/Introduce";
 import MainAnalysis from "../components/Main/MainAnalysis";
 import OtherReview from "../components/Main/OtherReview";
-import { color } from "../components/style/theme";
+import { color, device } from "../components/style/theme";
 
 const MainPage = () => {
   const navigate = useNavigate();
@@ -35,6 +36,7 @@ const MainPage = () => {
           </>
         )}
       </Wrapper>
+      <NavBar />
       <FooterSection />
     </>
   );
@@ -43,7 +45,7 @@ const MainPage = () => {
 export default MainPage;
 
 const Wrapper = styled.div`
-  margin: 2rem 5.5rem;
+  margin: 1% 5%; /* margin: 2rem 5.5rem; */
   .move-register {
     position: fixed;
     bottom: 2rem;
@@ -52,12 +54,17 @@ const Wrapper = styled.div`
     font-size: 1.6rem;
     color: white;
     background: ${color.Main};
-    padding: 1.5rem 10rem;
+    width: 30rem;
+    padding: 1.3rem 0;
     border-radius: 6rem;
     box-shadow: 1px 1px 1rem 1px ${color.medium_gray};
     b {
       font-family: LeferiBaseType-BoldA;
       font-size: 1.6rem;
+    }
+
+    @media ${device.mobile} {
+      display: none;
     }
   }
 `;
