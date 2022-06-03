@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { color, whiteButton } from "../style/theme";
+import { color, device, whiteButton } from "../style/theme";
 
 const BookInfo = ({
   thumbnail,
@@ -34,8 +34,16 @@ export default BookInfo;
 const BookInfoWrapper = styled.section`
   display: flex;
   // width 값을 지정하고 반응형 될때마다 변경할지 그냥 fit 하게 둘지 고민중
-  width: 80rem;
+  width: 60vw;
   margin-bottom: 2rem;
+
+  @media ${device.tablet} {
+    width: 80vw;
+  }
+  @media screen and (max-width: 780px) {
+    width: 85vw;
+  }
+
   & > img {
     width: 13rem;
     border: 1px solid ${color.medium_gray};
@@ -47,16 +55,32 @@ const BookInfoWrapper = styled.section`
     & > h2 {
       font-size: 2.2rem;
       font-family: "LeferiBaseType-BoldA";
+      word-break: keep-all;
+      line-height: 2.2rem;
+      @media ${device.mobile} {
+        font-size: 2rem;
+        line-height: 2.3rem;
+      }
     }
     & > p {
       color: ${color.medium_gray2};
       font-size: 1.4rem;
       margin: 1rem 0;
+      line-height: 2rem;
+      word-break: keep-all;
+      @media ${device.mobile} {
+        font-size: 1.3rem;
+        line-height: 1.8rem;
+      }
     }
     & > h3 {
       color: ${color.dark_gray2};
       font-size: 1.2rem;
       line-height: 2rem;
+
+      @media screen and (max-width: 780px) {
+        display: none;
+      }
     }
   }
   button {

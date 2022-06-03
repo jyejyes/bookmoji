@@ -4,7 +4,13 @@ import { apiClient } from "../api/apiClient";
 import { bookSearch } from "../api/bookSearch";
 import BookInfo from "./common/BookInfo";
 import LoadingSpinner from "./common/LoadingSpinner";
-import { color, flexCenter, mainColorButton, whiteButton } from "./style/theme";
+import {
+  color,
+  device,
+  flexCenter,
+  mainColorButton,
+  whiteButton,
+} from "./style/theme";
 
 const ReviewModal = ({ isbn, handleOpenModal }) => {
   const [result, setResult] = useState("");
@@ -154,6 +160,13 @@ const Wrapper = styled.div`
       display: grid;
       grid-template-columns: repeat(8, 1fr);
       margin-bottom: 2rem;
+
+      @media ${device.tablet} {
+      }
+      @media screen and (max-width: 780px) {
+        grid-template-columns: repeat(4, 1fr);
+        margin-bottom: 2rem;
+      }
     }
     // 감상
     textarea {
@@ -204,6 +217,10 @@ const EmojiBtn = styled.button`
   .emo-text {
     font-size: 1.1rem;
     color: ${color.black};
+  }
+
+  @media ${device.mobile} {
+    font-size: 3.4rem;
   }
 `;
 
