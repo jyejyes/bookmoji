@@ -6,7 +6,7 @@
 
 [https://docs.google.com/spreadsheets/d/1wr3kIZvF-LY8imqpLncERY5Uze8-yTFfsUEjFeqHM0Q/edit?usp=sharing](https://docs.google.com/spreadsheets/d/1wr3kIZvF-LY8imqpLncERY5Uze8-yTFfsUEjFeqHM0Q/edit?usp=sharing)
 
-## 📆 \*\*개발기간
+## 📆 개발기간
 
 22.04.24 ~
 
