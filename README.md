@@ -1,29 +1,82 @@
-# 북모지 : 이모지으로 표현하는 독서감상
+# 📚 북모지 : 이모지으로 표현하는 독서감상
 
-## 🎥 **시연영상**
+![image](https://user-images.githubusercontent.com/41052126/172013344-09a7458e-c8c6-4562-b42f-f15ad2a952d5.png)
 
-## 📝 **api 명세서**
+## 👩‍🏫 웹서비스 소개
 
-[https://docs.google.com/spreadsheets/d/1wr3kIZvF-LY8imqpLncERY5Uze8-yTFfsUEjFeqHM0Q/edit?usp=sharing](https://docs.google.com/spreadsheets/d/1wr3kIZvF-LY8imqpLncERY5Uze8-yTFfsUEjFeqHM0Q/edit?usp=sharing)
+**북모지** 는 책을 읽고 느낀 점을 별점이 아닌 감정으로 표현하여 저장할 수 있는 독서 기록 웹 사이트입니다. 북모지는 전체 리뷰에 대한 차트를 제공하고, 다른 사람들의 리뷰를 볼 수 있는 기능을 가지고 있습니다. 리뷰를 작성할 때 별점을 매기는 것이 부담스러운 사람들, 가볍게 독서기록장을 이용하고 싶은 사람들을 대상으로 하는 사이트 입니다.
+
+### 주요기능 소개
+
+- 회원가입, 로그인 기능
+  - 이메일 인증
+  - 유효성 검사
+- 카카오 오픈 api 를 이용한 책 검색 기능
+- 통계 기능
+  - 전체 리뷰에 대한 이모지 통계 기능
+  - 월별 리뷰 개수 통계 기능
+- 리뷰 모아보기 기능
+  - 리뷰 수정 및 삭제
+- 다른 사용자 리뷰 보기 기능
+  - 좋아요 기능 (현재 api 연결 안된 상태)
+- 유저페이지
+  - 닉네임 변경
+  - 비밀번호 변경
+  - 회원 탈퇴(이유 선택)
+- 반응형 구현
+
+## 💻 사이트
+
+- 링크 : [북모지 바로가기](https://bookmoji.netlify.app/)
+  <br></br>
+
+## 🎥 시연영상
+
+- 시연영상 : [시연영상 보러가기](https://bookmoji.netlify.app/)
+  <br></br>
+
+## 📝 문서
+
+- 💾 [api 명세서](https://docs.google.com/spreadsheets/d/1Asdpkb12oqxwLhNLJsmugVRGKjIvmrwlrwA1VUs1asg/edit#gid=183501716)
+  <br></br>
 
 ## 📆 개발기간
 
-22.04.24 ~
+- ver1 (2022.04.24 ~ 2022.06.06)
+  <br></br>
 
-## 👨‍👩‍👧‍👦 \*\*개발인원
+## 👨‍👩‍👧‍👦 개발인원
 
-Frontend, Design 1명 (브리) , Backend 1명 (리엘)
+- Frontend, Design(브리), [브리 깃허브](https://github.com/jyejyes)
+- Backend(리엘), [리엘 깃허브](https://github.com/shj718)
+  <br></br>
 
-## 💬 \*\*프론트엔드 사용기술
+## 👩🏻‍💻 기술 스택
 
-\*\* React, Styled-components, Redux, Router, React-hook-form
+### FE
 
-## ✅ \*\* 핵심기능
+- HTML
+- JavaScript
+- React
+- Styled-components
+- Redux
+- Router
+- React-hook-form
+- chart.js
 
-✔️ 구현기능
+### BE
 
-## **📝 api 구현상황**
+- Java 11
+- Spring Boot
+- Jdbc Template
+- Gradle
+- Nginx
+- MySQL
+- AWS - EC2, RDS
+- OAuth 2.0
+- Google SMTP
+  <br></br>
 
 ## 🎨 자세한 일지(웹 시연 갤러리, 개발일지, 회고 등)
 
-https://www.notion.so/Book-Emoji-6d0a1f9abba3488fabbdc1c302f5e313
+- [노션 바로가기](https://www.notion.so/Book-Emoji-6d0a1f9abba3488fabbdc1c302f5e313)
