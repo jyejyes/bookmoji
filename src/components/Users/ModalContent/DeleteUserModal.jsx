@@ -130,9 +130,8 @@ const Wrapper = styled.div`
     input[type="radio"]:checked + label:after {
       content: "";
       position: absolute;
-      top: 2.5px;
-      bottom: 0;
-      left: 2.5px;
+      top: 2.3px;
+      left: 2.4px;
       margin: auto 0;
       width: 11px;
       height: 11px;
