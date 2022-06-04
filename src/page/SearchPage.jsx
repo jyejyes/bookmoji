@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router";
+import { useDispatch } from "react-redux";
+import { useNavigate, useParams } from "react-router";
 import styled from "styled-components";
 import { bookSearch } from "../api/bookSearch";
 import LoadingSpinner from "../components/common/LoadingSpinner";
@@ -9,6 +10,7 @@ import Pagination from "../components/common/Pagination";
 import FooterSection from "../components/Footer/Footer";
 import Header from "../components/Header/Header";
 import { color, device, flexCenter } from "../components/style/theme";
+import { addRecentSearch } from "../store/actions/recentSearch";
 
 const SearchPage = () => {
   const { bookName } = useParams();
@@ -22,6 +24,12 @@ const SearchPage = () => {
   const [limit, setLimit] = useState(18); // 한페이지에 보여줄 갯수
   const [page, setPage] = useState(1); //현재 페이지
   const [endPage, setEndPage] = useState("");
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(addRecentSearch(bookName));
+  }, [bookName]);
 
   useEffect(() => {
     onGetBooks(bookName);

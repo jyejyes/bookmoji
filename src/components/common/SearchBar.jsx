@@ -9,8 +9,8 @@ import { color, device } from "../style/theme";
 const SearchBar = () => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
+
   const dispatch = useDispatch();
-  const words = useSelector((state) => state.recentSearchReducer);
 
   const onInputSearch = (e) => {
     setSearch(e.target.value);
@@ -18,19 +18,14 @@ const SearchBar = () => {
 
   const onSubmitSearch = (e) => {
     if (e.key === "Enter") {
-      dispatch(addRecentSearch(search));
-      console.log(search);
+      e.preventDefault();
       navigate(`/search/${search}`);
     }
   };
 
-  useEffect(() => {
-    console.log(words);
-  }, [words]);
-
   return (
     <SearchBarWrapper>
-      <div className="search">
+      <form className="search">
         <SearchStyle />
         <input
           type="search"
@@ -39,7 +34,7 @@ const SearchBar = () => {
           onKeyPress={onSubmitSearch}
           value={search}
         />
-      </div>
+      </form>
     </SearchBarWrapper>
   );
 };
