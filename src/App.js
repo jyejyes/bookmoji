@@ -10,28 +10,28 @@ import MainPage from "./page/MainPage";
 import MobileSearch from "./page/MobileSearch";
 import SearchPage from "./page/SearchPage";
 import UserPage from "./page/UserPage";
-import rootReducer from "./store";
+import { composeWithDevTools } from "redux-devtools-extension"; // 리덕스 개발자 도구
+import rootReducer from "./store/reducers";
+
+const store = createStore(rootReducer, composeWithDevTools());
 
 function App() {
   const AccessUsersPage = Access(UserPage, true);
   const AccessCollectPage = Access(CollectPage, true);
 
-  const store = createStore(rootReducer);
-
   return (
-    <>
-      <Provider store={store}>
-        <GlobalStyle />
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/auth/:auth" element={<AuthPage />} />
-          <Route path="/search/:bookName" element={<SearchPage />} />
-          <Route path="/m/search/" element={<MobileSearch />} />
-          <Route path="/users" element={<AccessUsersPage />} />
-          <Route path="/collect" element={<AccessCollectPage />} />
-        </Routes>
-      </Provider>
-    </>
+    <Provider store={store}>
+      <GlobalStyle />
+      {/* <Header /> */}
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/auth/:auth" element={<AuthPage />} />
+        <Route path="/search/:bookName" element={<SearchPage />} />
+        <Route path="/m/search/" element={<MobileSearch />} />
+        <Route path="/users" element={<AccessUsersPage />} />
+        <Route path="/collect" element={<AccessCollectPage />} />
+      </Routes>
+    </Provider>
   );
 }
 

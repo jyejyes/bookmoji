@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
-import { selectedReducer } from "./reducers/selected";
-import { recentSearchReducer } from "./reducers/recentSearch";
+import { selectedReducer } from "./selected";
+import { recentSearchReducer } from "./recentSearch";
 
 const rootReducer = combineReducers({ selectedReducer, recentSearchReducer });
 
