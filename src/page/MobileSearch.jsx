@@ -1,12 +1,19 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import NavBar from "../components/common/NavBar";
 import SearchBar from "../components/common/SearchBar";
 import Header from "../components/Header/Header";
 import { color, flexCenter } from "../components/style/theme";
+import { removeRecentSearch } from "../store/actions/recentSearch";
 
 const MobileSearch = () => {
+  const recentWords = useSelector((state) => state.recentSearchReducer);
+  const dispatch = useDispatch();
+
+  const handleDeleteWord = (e) => {
+    dispatch(removeRecentSearch(e.target.value));
+  };
   return (
     <Wrapper>
       <Header />
@@ -15,10 +22,18 @@ const MobileSearch = () => {
         <section className="recent">
           <h3>최근 검색어</h3>
           <div className="recent-search-section">
-            <div className="search-word">
-              <p defaultValue="아가미">아가미</p>
-              <span>𝖷</span>
-            </div>
+            {recentWords.length === 0 ? (
+              <></>
+            ) : (
+              recentWords.map((item, index) => (
+                <div className="search-word" key={index}>
+                  <p>{item}</p>
+                  <button onClick={handleDeleteWord} value={item}>
+                    𝖷
+                  </button>
+                </div>
+              ))
+            )}
           </div>
         </section>
       </main>
@@ -62,7 +77,7 @@ const Wrapper = styled.div`
         cursor: pointer;
         color: ${color.dark_gray2};
       }
-      span {
+      & > button {
         font-size: 1.3rem;
         color: ${color.medium_gray2};
         cursor: pointer;

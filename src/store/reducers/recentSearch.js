@@ -9,8 +9,9 @@ const initialState = [];
 export const recentSearchReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_RECENT_SEARCH:
-      return state.concat(action.word);
-
+      return [action.word, ...state];
+    case REMOVE_RECENT_SEARCH:
+      return state.filter((word) => word !== action.word);
     default:
       return state;
   }
