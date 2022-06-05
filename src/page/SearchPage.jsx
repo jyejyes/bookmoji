@@ -16,12 +16,15 @@ const SearchPage = () => {
   const { bookName } = useParams();
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [pic, setPic] = useState(
+    "https://img.ypbooks.co.kr/ypbooks/images/empty70x100.gif"
+  );
 
   const [isbn, setIsbn] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   //페이지네이션
-  const [limit, setLimit] = useState(18); // 한페이지에 보여줄 갯수
+  const [limit, setLimit] = useState(24); // 한페이지에 보여줄 갯수
   const [page, setPage] = useState(1); //현재 페이지
   const [endPage, setEndPage] = useState("");
 
@@ -45,7 +48,8 @@ const SearchPage = () => {
     setLoading(true);
     const resultData = await bookSearch(params);
     setBooks(resultData.data.documents);
-    setEndPage(Math.ceil(resultData.data.meta.pageable_count / limit));
+    if (resultData.data.documents)
+      setEndPage(Math.ceil(resultData.data.meta.pageable_count / limit));
     setLoading(false);
   };
 
@@ -89,9 +93,12 @@ const SearchPage = () => {
             books.map((item, index) => (
               <div key={index} className="each-book">
                 <div className="book-image">
-                  {/* 기본 이미지 설정해야함 */}
                   <img
-                    src={item.thumbnail}
+                    src={
+                      item.thumbnail
+                        ? `${item.thumbnail}`
+                        : "https://img.ypbooks.co.kr/ypbooks/images/empty70x100.gif"
+                    }
                     alt="책 사진"
                     name={item.isbn}
                     onClick={handleClickBook}
