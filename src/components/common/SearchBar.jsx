@@ -23,10 +23,13 @@ const SearchBar = () => {
     }
   };
 
+  const handleClickSearch = () => {
+    navigate(`/search/${search}`);
+  };
+
   return (
     <SearchBarWrapper>
       <form className="search">
-        <SearchStyle />
         <input
           type="search"
           placeholder="책 이름, 저자, 출판사로 검색해보세요."
@@ -34,6 +37,7 @@ const SearchBar = () => {
           onKeyPress={onSubmitSearch}
           value={search}
         />
+        <SearchStyle onClick={handleClickSearch} />
       </form>
     </SearchBarWrapper>
   );
@@ -43,18 +47,27 @@ export default SearchBar;
 
 const SearchBarWrapper = styled.div`
   position: relative;
+
   input {
     width: 29rem;
     border: none;
     border-radius: 0.5rem;
     background: ${color.light_gray2};
     box-sizing: border-box;
-    padding: 1rem 1rem 1rem 3.5rem;
+    padding: 1rem 1rem 1rem 1.5rem;
     margin-right: 1rem;
     font-size: 1.4rem;
     color: ${color.dark_gray2};
+
     &:focus {
       outline: none;
+    }
+
+    input::-ms-clear,
+    input::-ms-reveal {
+      display: none;
+      width: 0;
+      height: 0;
     }
 
     @media ${device.tablet} {
@@ -65,12 +78,23 @@ const SearchBarWrapper = styled.div`
       width: 100%;
     }
   }
+  /* 버튼 삭제 */
+  input {
+    &::-webkit-search-decoration,
+    &::-webkit-search-cancel-button,
+    &::-webkit-search-results-button,
+    &::-webkit-search-results-decoration {
+      display: none;
+    }
+  }
 `;
 
 const SearchStyle = styled(Search)`
   position: absolute;
   top: 50%;
   transform: translateY(-55%);
-  left: 1.2rem;
+  right: 1.5rem;
   stroke: ${color.medium_gray2};
+  padding: 0.5rem;
+  cursor: pointer;
 `;
