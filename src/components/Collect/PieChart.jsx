@@ -64,7 +64,7 @@ const PieChart = () => {
   return (
     <Wrapper>
       {noReview ? (
-        <p className="no-review">리뷰가 없어서 원형 차트를 만들 수 없어요</p>
+        <p className="no-review">리뷰를 작성하면 원형 차트를 볼 수 있어요</p>
       ) : (
         <Pie data={data} />
       )}
