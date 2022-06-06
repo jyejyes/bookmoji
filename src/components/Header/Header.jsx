@@ -129,8 +129,8 @@ const HeaderWrapper = styled.header`
     // 로그인 시
     .move-record {
       ${whiteButton}
-      color: ${color.dark_gray};
-
+      color: ${color.Main};
+      font-size: 1.4rem;
       @media ${device.mobile} {
         display: none;
       }
