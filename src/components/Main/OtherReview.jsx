@@ -49,7 +49,7 @@ const OtherReview = () => {
           <>
             <MainSubject content="다른 사람의 감상을" />
             <MainSubject content="구경할 수 있어요" />
-            <MainDisscription content="리뷰에 남겨진 감상에 공감한다면 하트를 눌러주세요 !" />
+            <MainDisscription content="감상에 공감한다면 하트를 눌러주세요 !" />
             <BooksStyle>
               {result.map((item, index) => (
                 <div className="book" key={item.reviewIdx}>

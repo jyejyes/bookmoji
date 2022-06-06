@@ -97,4 +97,5 @@ const SearchStyle = styled(Search)`
   stroke: ${color.medium_gray2};
   padding: 0.5rem;
   cursor: pointer;
+  background: ${color.light_gray2};
 `;
