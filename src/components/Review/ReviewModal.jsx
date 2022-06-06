@@ -69,7 +69,7 @@ const ReviewModal = ({ isbn, handleOpenModal }) => {
     try {
       const res = await apiClient.post("reviews", {
         emoji: select.emoji,
-        text: reviewText,
+        text: reviewText.trim(),
         isbn: result.isbn,
         userIdx: localStorage.getItem("userIdx"),
         title: result.title,
