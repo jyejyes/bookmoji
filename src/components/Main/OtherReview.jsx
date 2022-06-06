@@ -59,9 +59,9 @@ const OtherReview = () => {
 
                   <div className="title-content">
                     <h3 className="title">{item.title}</h3>
-                    <p className="author">{item.author}작가님</p>
+                    <p className="author">{item.author} 작가님</p>
                     <span className="emoji">{item.emoji.split(" ")[0]}</span>
-                    <p className="text">{item.text}...</p>
+                    <p className="text">{item.text}</p>
                   </div>
                 </div>
               ))}
