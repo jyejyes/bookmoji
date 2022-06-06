@@ -1,7 +1,9 @@
 import React, { isValidElement, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { apiClient } from "../../../api/apiClient";
+import { userInfo } from "../../../store/actions/userInfo";
 import {
   authInput,
   authLabel,
@@ -14,6 +16,8 @@ import {
 const ChangeNicknameModal = ({ handleOpenModal }) => {
   const [nickname, setNickname] = useState("");
   const userIdx = localStorage.getItem("userIdx");
+
+  const dispatch = useDispatch();
 
   //api 호출 1 : 회원 정보(닉네임) 불러오기
   const nicknameApi = async () => {
@@ -33,6 +37,7 @@ const ChangeNicknameModal = ({ handleOpenModal }) => {
         nickname: newNickname,
       });
       if (res.data.isSuccess) {
+        dispatch(userInfo(newNickname));
         alert(res.data.message);
         handleOpenModal();
       }

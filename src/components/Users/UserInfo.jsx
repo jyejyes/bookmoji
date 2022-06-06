@@ -1,20 +1,29 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { apiClient } from "../../api/apiClient";
 import { color, device } from "../../components/style/theme";
+import { userInfo } from "../../store/actions/userInfo";
 
 const UserInfo = () => {
   //회원정보 state
   const [loading, setLoading] = useState(false);
-  const [userInfo, setUserInfo] = useState({ nickname: "", profileUrl: "" });
+  const [userInformation, setUserInformation] = useState({
+    nickname: "",
+    profileUrl: "",
+  });
   const userIdx = localStorage.getItem("userIdx");
+
+  const dispatch = useDispatch();
+  const userNickname = useSelector((state) => state.userInfoReducer.nickname);
 
   //회원정보 api
   const userInfoApi = async () => {
     try {
       setLoading(true);
       const res = await apiClient.get(`users/info?userIdx=${userIdx}`);
-      setUserInfo({
+      dispatch(userInfo(res.data.result.nickname));
+      setUserInformation({
         nickname: res.data.result.nickname,
         profileUrl: res.data.result.profileUrl,
       });
@@ -32,9 +41,9 @@ const UserInfo = () => {
   return (
     <UserInfoWrapper>
       {!loading ? (
-        userInfo.profileUrl ? (
+        userInformation.profileUrl ? (
           <img
-            src={userInfo.profileUrl}
+            src={userInformation.profileUrl}
             alt="유저이미지"
             className="user-image"
           />
@@ -54,7 +63,7 @@ const UserInfo = () => {
       )}
 
       {!loading ? (
-        <p className="name">{userInfo.nickname}</p>
+        <p className="name">{userNickname}</p>
       ) : (
         <p className="name">-</p>
       )}
