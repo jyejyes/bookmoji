@@ -11,7 +11,6 @@ const Subject = styled.h1`
   font-size: 4rem;
   font-family: LeferiBaseType-BoldA;
   color: ${color.Main};
-  width: 40rem;
   text-align: center;
   word-break: keep-all;
   margin-bottom: 2rem;
