@@ -31,8 +31,12 @@ const Modal = ({ handleOpenModal, whatBtn, isbn, reviewIdx }) => {
             reviewIdx={reviewIdx}
           />
         )}
-        {whatBtn === "changeName" && <ChangeInfoModal />}
-        {whatBtn === "changePw" && <ChangePwModal />}
+        {whatBtn === "changeName" && (
+          <ChangeInfoModal handleOpenModal={handleOpenModal} />
+        )}
+        {whatBtn === "changePw" && (
+          <ChangePwModal handleOpenModal={handleOpenModal} />
+        )}
       </div>
     </ModalWrapper>
   );

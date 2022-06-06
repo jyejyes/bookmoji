@@ -11,7 +11,7 @@ import {
   mainColorButton,
 } from "../../style/theme";
 
-const ChangeNicknameModal = () => {
+const ChangeNicknameModal = ({ handleOpenModal }) => {
   const [nickname, setNickname] = useState("");
   const userIdx = localStorage.getItem("userIdx");
 
@@ -34,6 +34,7 @@ const ChangeNicknameModal = () => {
       });
       if (res.data.isSuccess) {
         alert(res.data.message);
+        handleOpenModal();
       }
     } catch (e) {
       console.log(e);

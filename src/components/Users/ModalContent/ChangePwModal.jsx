@@ -10,7 +10,7 @@ import {
   mainColorButton,
 } from "../../style/theme";
 
-const ChangePwModal = () => {
+const ChangePwModal = ({ handleOpenModal }) => {
   const userIdx = localStorage.getItem("userIdx");
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
@@ -45,8 +45,8 @@ const ChangePwModal = () => {
         newPassword: newPassword,
       });
       if (res.data.isSuccess) {
-        setSuccess(res.data.result);
-        if (res.data.isSuccess) alert(res.data.message);
+        alert(res.data.message);
+        handleOpenModal();
       }
       if (res.data.code === 3017 || res.data.code === 3018)
         setError(res.data.message);
