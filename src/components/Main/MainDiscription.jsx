@@ -9,7 +9,6 @@ const MainDisscription = ({ content }) => {
 export default MainDisscription;
 const Discription = styled.h3`
   font-size: 2rem;
-  font-family: "LeferiPoint-WhiteA";
   color: ${color.dark_gray2};
   width: 90%;
   text-align: center;
