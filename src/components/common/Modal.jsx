@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import DeleteUserModal from "../Users/ModalContent/DeleteUserModal";
 import LogoutModal from "../Users/ModalContent/LogoutModal";
-import { color } from "../style/theme";
+import { color, device } from "../style/theme";
 import ReviewModal from "../Review/ReviewModal";
 import ChangeInfoModal from "../Users/ModalContent/ChangeNicknameModal";
 import ChangePwModal from "../Users/ModalContent/ChangePwModal";
@@ -57,6 +57,9 @@ const ModalWrapper = styled.div`
     border-radius: 1rem;
     padding: 3rem;
     box-sizing: border-box;
+    @media ${device.mobile} {
+      padding: 1.5rem;
+    }
   }
 `;
 
