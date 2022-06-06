@@ -62,7 +62,7 @@ const ModalWrapper = styled.div`
     padding: 3rem;
     box-sizing: border-box;
     @media ${device.mobile} {
-      padding: 1.5rem;
+      padding: 2rem;
     }
   }
 `;

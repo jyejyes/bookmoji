@@ -55,11 +55,11 @@ const BookInfoWrapper = styled.section`
     & > h2 {
       font-size: 2.2rem;
       font-family: "LeferiBaseType-BoldA";
-      word-break: keep-all;
+      /* word-break: keep-all; */
       line-height: 2.2rem;
       @media ${device.mobile} {
-        font-size: 2rem;
-        line-height: 2.3rem;
+        font-size: 1.8rem;
+        line-height: 2.2rem;
       }
     }
     & > p {
