@@ -37,6 +37,7 @@ const UserInfo = () => {
         nickname: res.data.result.nickname,
         profileUrl: res.data.result.profileImgUrl,
       });
+
       setLoading(false);
     } catch (e) {
       console.log(e);
