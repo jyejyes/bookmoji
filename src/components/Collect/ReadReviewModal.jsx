@@ -14,6 +14,13 @@ const ReadReviewModal = ({ reviewIdx, handleOpenModal }) => {
 
   const userIdx = localStorage.getItem("userIdx");
 
+  const handleDelete = () => {
+    const result = window.confirm("리뷰를 삭제하시겠습니까?");
+    if (result) {
+      deleteReviewApi();
+    }
+  };
+
   //12: 특정 리뷰 조회 api
   const detailReviewApi = async () => {
     try {
@@ -106,7 +113,7 @@ const ReadReviewModal = ({ reviewIdx, handleOpenModal }) => {
             <button className="review-change-btn" onClick={changeReviewApi}>
               리뷰 수정하기
             </button>
-            <button className="review-delete-btn" onClick={deleteReviewApi}>
+            <button className="review-delete-btn" onClick={handleDelete}>
               리뷰 삭제하기
             </button>
           </div>
