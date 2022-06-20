@@ -3,17 +3,15 @@ import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { apiClient } from "../../api/apiClient";
 import { color, device, flexCenter } from "../style/theme";
+import LikeButton from "./LikeButton";
 import MainDisscription from "./MainDiscription";
 import MainSubject from "./MainSubject";
-import { ReactComponent as Like } from "../../svg/ic-heart.svg";
 
 const OtherReview = () => {
   const userIdx = localStorage.getItem("userIdx");
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState("");
   const [isLogin, setIsLogin] = useState(!!userIdx);
-
-  const [hasLiked, setHasLiked] = useState(false);
 
   const navigate = useNavigate();
 
@@ -26,11 +24,6 @@ const OtherReview = () => {
     } catch (e) {
       console.log(e);
     }
-  };
-
-  const handleClickLiked = (e) => {
-    setHasLiked(!hasLiked);
-    console.log(e.target);
   };
 
   useEffect(() => {
@@ -56,7 +49,10 @@ const OtherReview = () => {
                   <div className="img">
                     <img src={item.thumbnailUrl} alt="책 이미지" />
                   </div>
-
+                  <LikeButton
+                    reviewIdx={item.reviewIdx}
+                    hasLiked={item.hasLiked}
+                  />
                   <div className="title-content">
                     <h3 className="title">{item.title}</h3>
                     <p className="author">{item.author} 작가님</p>
@@ -190,16 +186,4 @@ const BooksStyle = styled.div`
     grid-template-columns: repeat(1, 1fr);
     grid-gap: 1rem;
   }
-`;
-
-const LikeButton = styled(Like)`
-  position: absolute;
-  bottom: 5%;
-  right: 2%;
-  width: 3rem;
-  fill: ${(props) => (props.liked ? `${color.Main}` : "transparent")};
-  stroke: ${color.Main};
-  stroke-width: 5px;
-  cursor: pointer;
-  z-index: 100;
 `;
