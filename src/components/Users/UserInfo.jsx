@@ -104,7 +104,7 @@ const UserInfo = () => {
       <input className="image-file" type="file" onChange={onUploadImage} />
       {!loading ? (
         //로딩 됐을 때 프로필 이미지 있으면 프로필 이미지로 보여주고
-        userInformation.profileUrl ? (
+        userInformation.profileUrl.length > 1 ? (
           <img src={url} alt="유저이미지" className="user-image"></img>
         ) : (
           //없으면 기본 이미지로 보여주라는거임
