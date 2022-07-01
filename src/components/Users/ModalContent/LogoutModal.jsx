@@ -8,6 +8,7 @@ const LogoutModal = ({ handleOpenModal }) => {
   const handleLogout = () => {
     localStorage.removeItem("jwt");
     localStorage.removeItem("userIdx");
+    localStorage.removeItem("profileUrl");
     navigate("/");
   };
 
