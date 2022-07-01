@@ -69,12 +69,12 @@ const Header = () => {
                 >
                   모아보기
                 </button>
-                {localStorage.getItem("profileUrl") !== "undefined" ? (
+                {localStorage.getItem("profileUrl") ? (
                   <img
                     onClick={onClickNavigate}
                     className="user"
                     name="users"
-                    src={url}
+                    src={localStorage.getItem("profileUrl")}
                   />
                 ) : (
                   <img
