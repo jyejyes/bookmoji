@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
+import { apiClient } from "../../api/apiClient";
 import { ReactComponent as Logo } from "../../svg/logo.svg";
 import SearchBar from "../common/SearchBar";
 
@@ -15,6 +17,7 @@ import {
 
 const Header = () => {
   const navigate = useNavigate();
+  const url = useSelector((state) => state.userInfoReducer.url);
 
   const onClickNavigate = (e) => {
     if (e.target.name === "logo") navigate("/");
@@ -25,6 +28,7 @@ const Header = () => {
 
   // 로그인 유무 임시판별
   const [isLogin, setIsLogin] = useState(localStorage.getItem("jwt"));
+
   return (
     <>
       <HeaderWrapper>
@@ -65,12 +69,21 @@ const Header = () => {
                 >
                   모아보기
                 </button>
-                <img
-                  onClick={onClickNavigate}
-                  className="user"
-                  name="users"
-                  src="https://an2-glx.amz.wtchn.net/assets/default/user/photo_file_name_small-ab0a7f6a92a282859192ba17dd4822023e22273e168c2daf05795e5171e66446.jpg"
-                />
+                {localStorage.getItem("profileUrl") !== "undefined" ? (
+                  <img
+                    onClick={onClickNavigate}
+                    className="user"
+                    name="users"
+                    src={url}
+                  />
+                ) : (
+                  <img
+                    onClick={onClickNavigate}
+                    className="user"
+                    name="users"
+                    src="https://an2-glx.amz.wtchn.net/assets/default/user/photo_file_name_small-ab0a7f6a92a282859192ba17dd4822023e22273e168c2daf05795e5171e66446.jpg"
+                  />
+                )}
               </>
             )}
           </div>

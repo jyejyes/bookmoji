@@ -33,6 +33,7 @@ const UserInfo = () => {
       const res = await apiClient.get(`users/info?userIdx=${userIdx}`);
       dispatch(userInfo(res.data.result.nickname));
       dispatch(profileUrl(res.data.result.profileImgUrl));
+      localStorage.setItem("profileUrl", res.data.result.profileImgUrl);
       setUserInformation({
         nickname: res.data.result.nickname,
         profileUrl: res.data.result.profileImgUrl,
@@ -51,6 +52,10 @@ const UserInfo = () => {
         userIdx: userIdx,
         profileImgUrl: downloadUrl,
       });
+      if (res.data.isSuccess) {
+        dispatch(profileUrl(downloadUrl));
+        localStorage.setItem("profileUrl", res.data.result.profileImgUrl);
+      }
     } catch (e) {
       console.log(e);
     }
