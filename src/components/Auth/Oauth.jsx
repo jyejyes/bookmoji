@@ -24,7 +24,7 @@ const Oauth = () => {
   //카카오 로그인 api
   const OauthKakaoLogin = async () => {
     try {
-      const res = await apiClient.post(`users/oauth/kakao?token=${code}`);
+      const res = await apiClient.post(`users/oauth/kakao?authCode=${code}`);
       console.log(res);
       if (res.data.isSuccess) {
         localStorage.setItem("jwt", res.data.result.jwt);
