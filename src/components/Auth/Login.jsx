@@ -21,8 +21,8 @@ const Login = () => {
   const [error, setError] = useState("");
 
   const API_KEY = process.env.REACT_APP_KAKAO_REST_API;
-  const REDIRECT_URI = "http://localhost:3000/oauth";
-  //   const REDIRECT_URI = "https://bookmoji.netlify.app/oauth";
+  // const REDIRECT_URI = "http://localhost:3000/oauth";
+  const REDIRECT_URI = "https://bookmoji.netlify.app/oauth";
   const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?client_id=${API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
   //로그인 api
