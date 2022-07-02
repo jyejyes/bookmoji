@@ -12,6 +12,7 @@ import SearchPage from "./page/SearchPage";
 import UserPage from "./page/UserPage";
 import { composeWithDevTools } from "redux-devtools-extension"; // 리덕스 개발자 도구
 import rootReducer from "./store/reducers";
+import Oauth from "./components/Auth/Oauth";
 
 const store = createStore(rootReducer, composeWithDevTools());
 
@@ -30,6 +31,7 @@ function App() {
         <Route path="/m/search/" element={<MobileSearch />} />
         <Route path="/users" element={<AccessUsersPage />} />
         <Route path="/collect" element={<AccessCollectPage />} />
+        <Route path="/oauth" element={<Oauth />} />
       </Routes>
     </Provider>
   );

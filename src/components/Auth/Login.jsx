@@ -9,9 +9,9 @@ import {
   device,
   flexCenter,
 } from "../style/theme";
-import axios from "axios";
 import { useNavigate } from "react-router";
 import { apiClient } from "../../api/apiClient";
+import { ReactComponent as KaKao } from "../../svg/ic-kakao.svg";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -19,6 +19,11 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [resultData, setResultData] = useState("");
   const [error, setError] = useState("");
+
+  const API_KEY = process.env.REACT_APP_KAKAO_REST_API;
+  const REDIRECT_URI = "http://localhost:3000/oauth";
+  //   const REDIRECT_URI = "https://bookmoji.netlify.app/oauth";
+  const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?client_id=${API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
   //로그인 api
   const loginApi = async (data) => {
@@ -33,6 +38,7 @@ const Login = () => {
       if (res.data.isSuccess) {
         localStorage.setItem("jwt", res.data.result.jwt);
         localStorage.setItem("userIdx", res.data.result.userIdx);
+        localStorage.setItem("profileUrl", res.data.result.profileImgUrl);
         navigate("/");
       }
       // 에러
@@ -122,6 +128,12 @@ const Login = () => {
       <p className="move-register" onClick={() => navigate("/auth/register")}>
         계정이 없으신가요?
       </p>
+      <section className="kakao-auth">
+        <p className="or">또는</p>
+        <a href={KAKAO_AUTH_URI}>
+          <KaKaoStyle />
+        </a>
+      </section>
     </LoginWrapper>
   );
 };
@@ -202,10 +214,39 @@ const LoginWrapper = styled.div`
       display: block;
     }
   }
+
+  .kakao-auth {
+    position: relative;
+    width: 100%;
+    margin-top: 2rem;
+    padding: 1rem 0;
+    border-top: 1px solid ${color.medium_gray};
+
+    .or {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      font-size: 1.2rem;
+      color: ${color.medium_gray2};
+      padding: 0 1rem;
+    }
+
+    a {
+      cursor: pointer;
+      margin-left: 50%;
+    }
+  }
 `;
 
 const ErrorMessage = styled.p`
   color: ${color.Main};
   margin: 0rem 0rem 1rem 1rem;
   font-size: 1.2rem;
+`;
+
+const KaKaoStyle = styled(KaKao)`
+  margin-top: 1rem;
+  transform: translateX(-50%);
 `;
