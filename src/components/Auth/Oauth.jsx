@@ -16,7 +16,7 @@ const Oauth = () => {
   //   const REDIRECT_URI = "https://bookmoji.netlify.app/oauth";
 
   useEffect(() => {
-    // OauthKakaoLogin();
+    OauthKakaoLogin();
   }, []);
 
   //엑세스 토큰 받아오기
