@@ -128,6 +128,13 @@ const BooksStyle = styled.div`
       right: 0;
       overflow-y: scroll;
       padding: 1.2rem;
+
+      /* 스크롤 없애기 */
+      -ms-overflow-style: none;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
       .title {
         font-size: 1.5rem;
         margin-bottom: 0.5rem;
