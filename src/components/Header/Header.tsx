@@ -1,13 +1,9 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
-import { apiClient } from "../../api/apiClient";
 import { ReactComponent as Logo } from "../../svg/logo.svg";
 import SearchBar from "../common/SearchBar";
-
 import {
-  blackButton,
   color,
   device,
   flexCenter,
@@ -16,18 +12,23 @@ import {
 } from "../style/theme";
 
 const Header = () => {
+  //react
   const navigate = useNavigate();
-  const url = useSelector((state) => state.userInfoReducer.url);
 
-  const onClickNavigate = (e) => {
-    if (e.target.name === "logo") navigate("/");
-    if (e.target.name === "auth") navigate(`/auth/${e.target.value}`);
-    if (e.target.name === "users") navigate(`/users`);
-    if (e.target.name === "collect") navigate("/collect");
+  //state
+  const profileUrl = localStorage.getItem("profileUrl") ?? "";
+
+  const onClickNavigate = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const { name, value } = e.currentTarget as HTMLButtonElement;
+
+    if (name === "logo") navigate("/");
+    if (name === "auth") navigate(`/auth/${value}`);
+    if (name === "users") navigate(`/users`);
+    if (name === "collect") navigate("/collect");
   };
 
   // 로그인 유무 임시판별
-  const [isLogin, setIsLogin] = useState(localStorage.getItem("jwt"));
+  const [isLogin] = useState(localStorage.getItem("jwt"));
 
   return (
     <>
@@ -69,20 +70,25 @@ const Header = () => {
                 >
                   모아보기
                 </button>
-                {localStorage.getItem("profileUrl") ? (
-                  <img
+                {profileUrl ? (
+                  <button
                     onClick={onClickNavigate}
                     className="user"
                     name="users"
-                    src={localStorage.getItem("profileUrl")}
-                  />
+                  >
+                    <img src={profileUrl} alt="사진" />
+                  </button>
                 ) : (
-                  <img
+                  <button
                     onClick={onClickNavigate}
                     className="user"
                     name="users"
-                    src="https://an2-glx.amz.wtchn.net/assets/default/user/photo_file_name_small-ab0a7f6a92a282859192ba17dd4822023e22273e168c2daf05795e5171e66446.jpg"
-                  />
+                  >
+                    <img
+                      src="https://an2-glx.amz.wtchn.net/assets/default/user/photo_file_name_small-ab0a7f6a92a282859192ba17dd4822023e22273e168c2daf05795e5171e66446.jpg"
+                      alt="사진"
+                    />
+                  </button>
                 )}
               </>
             )}
@@ -155,6 +161,12 @@ const HeaderWrapper = styled.header`
       width: 3.3rem;
       height: 3.3rem;
       cursor: pointer;
+
+      & > img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+      }
 
       @media ${device.mobile} {
         display: none;

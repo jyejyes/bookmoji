@@ -8,7 +8,11 @@ const FooterSection = () => {
     <Footer>
       <div className="content">
         <h3>기획부터 디자인 개발까지~ 자급자족 북모지 프로젝트</h3>
-        <a href="https://github.com/jyejyes/bookmoji" target="_blank">
+        <a
+          href="https://github.com/jyejyes/bookmoji"
+          target="_blank"
+          rel="noreferrer"
+        >
           <GithubStyle />
         </a>
         <p className="copyright">© Copyright 2022 북모지</p>
