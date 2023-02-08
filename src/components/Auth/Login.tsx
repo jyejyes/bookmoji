@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useForm } from "react-hook-form";
+import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import {
   authButton,
   authInput,
@@ -12,28 +12,22 @@ import {
 import { useNavigate } from "react-router";
 import { apiClient } from "../../api/apiClient";
 import { ReactComponent as KaKao } from "../../svg/ic-kakao.svg";
+import { LoginFormData } from "../../type/type";
 
 const Login = () => {
   const navigate = useNavigate();
 
-  const [loading, setLoading] = useState(false);
-  const [resultData, setResultData] = useState("");
   const [error, setError] = useState("");
 
   const API_KEY = process.env.REACT_APP_KAKAO_REST_API;
-  // const REDIRECT_URI = "http://localhost:3000/oauth";
+
   const REDIRECT_URI = "https://bookmoji.netlify.app/oauth";
   const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?client_id=${API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
   //로그인 api
-  const loginApi = async (data) => {
+  const loginApi = async (data: LoginFormData) => {
     try {
-      setLoading(true);
       const res = await apiClient.post("users/login", data);
-      setLoading(false);
-      // 로딩 끝나면
-      setResultData(res);
-
       //로그인 성공시
       if (res.data.isSuccess) {
         localStorage.setItem("jwt", res.data.result.jwt);
@@ -58,17 +52,17 @@ const Login = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<LoginFormData>({
     mode: "onSubmit",
     reValidateMode: "onChange",
   });
-  const onSubmit = (data) => {
+  const onSubmit: SubmitHandler<LoginFormData> = (data) => {
     loginApi({
       email: data.email,
       password: data.password,
     });
   };
-  const onError = (error) => {
+  const onError: SubmitErrorHandler<LoginFormData> = (error) => {
     console.log(error);
   };
 
@@ -86,7 +80,7 @@ const Login = () => {
         <input
           type="text"
           placeholder="이메일을 입력해주세요"
-          name="email"
+          // name="email"
           {...register("email", {
             required: "이메일을 입력해주세요.",
             pattern: {
@@ -102,7 +96,7 @@ const Login = () => {
           autoComplete="off"
           type="password"
           placeholder="비밀번호를 입력해주세요"
-          name="password"
+          // name="password"
           {...register("password", {
             required: "비밀번호를 입력해주세요.",
             minLength: {

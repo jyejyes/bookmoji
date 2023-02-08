@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router";
+import React from "react";
+import { useNavigate, useParams } from "react-router";
 import styled from "styled-components";
 import Auth from "../../components/Auth/Auth";
 import { color, device, flexCenter } from "../../components/style/theme";
@@ -7,7 +7,7 @@ import { ReactComponent as Logo } from "../../svg/logo.svg";
 
 const AuthPage = () => {
   const navigate = useNavigate();
-  const { auth } = useParams();
+  const { auth } = useParams() as { auth: string };
 
   return (
     <>
@@ -75,7 +75,7 @@ const LoginWrapper = styled.div`
   }
 `;
 
-const LogoStyle = styled(Logo)`
+const LogoStyle = styled(Logo)<{ auth: string }>`
   position: absolute;
   top: 0;
   margin: 0 3.7%;

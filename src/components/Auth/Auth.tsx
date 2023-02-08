@@ -1,27 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import {
-  blackButton,
-  color,
-  device,
-  flexCenter,
-  whiteButton,
-} from "../style/theme";
+import { color, device, flexCenter } from "../style/theme";
 import Login from "./Login";
 import Register from "./Register";
 
-const Auth = (auth) => {
+interface Props {
+  auth: string;
+}
+
+const Auth = ({ auth }: Props) => {
   return (
-    <AuthWrapper path={auth.auth}>
-      {auth.auth === "login" && <Login />}
-      {auth.auth === "register" && <Register />}
+    <AuthWrapper path={auth}>
+      {auth === "login" && <Login />}
+      {auth === "register" && <Register />}
     </AuthWrapper>
   );
 };
 
 export default Auth;
 
-const AuthWrapper = styled.div`
+const AuthWrapper = styled.div<{ path: string }>`
   width: 50%;
   height: 100%;
   z-index: 10;

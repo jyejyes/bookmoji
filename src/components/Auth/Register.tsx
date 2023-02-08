@@ -1,14 +1,9 @@
-import axios from "axios";
-import React, {
-  useEffect,
-  useRef,
-  useState,
-  useSyncExternalStore,
-} from "react";
-import { useForm } from "react-hook-form";
+import React, { useRef, useState } from "react";
+import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { apiClient } from "../../api/apiClient";
+import { RegisterFormData } from "../../type/type";
 import {
   authButton,
   authInput,
@@ -21,19 +16,17 @@ import {
 const Register = () => {
   const navigate = useNavigate();
 
-  const [loading, setLoading] = useState(false);
-  const [resultData, setResultData] = useState("");
-  const [error, setError] = useState("");
   const [email, setEmail] = useState(""); //사용자가 입력하는 이메일
   const [isOpenAuth, setIsOpenAuth] = useState(false); //인증칸 열리고 닫히고
   const [authCode, setAuthCode] = useState(""); //사용자가 입력하는 코드
   const [code, setCode] = useState(""); //이멜로 보내는 코드
   const [isSame, setIsSame] = useState(true); //코드 같은지
 
-  const handleAuthCode = (e) => {
+  const handleAuthCode: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setAuthCode(e.target.value);
   };
 
+  //이메일 인증 코드 판별 함수
   const compareCode = () => {
     if (authCode === code) {
       setIsSame(true);
@@ -57,14 +50,9 @@ const Register = () => {
   };
 
   //회원가입 api
-  const registerApi = async (data) => {
+  const registerApi = async (data: RegisterFormData) => {
     try {
-      setLoading(true);
       const res = await apiClient.post("users/signup", data);
-      setLoading(false);
-      if (!loading) {
-        setResultData(res);
-      }
 
       if (res.data.code === 1000) navigate("/auth/login");
       if (res.data.code === 2017) alert("이미 가입된 이메일입니다");
@@ -79,12 +67,14 @@ const Register = () => {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm({
+  } = useForm<RegisterFormData>({
     mode: "onChange",
     reValidateMode: "onChange",
   });
 
-  const onSubmit = (data) => {
+  const onSubmit: SubmitHandler<RegisterFormData> = (
+    data: RegisterFormData
+  ) => {
     registerApi({
       email: data.email,
       password: data.password,
@@ -92,19 +82,12 @@ const Register = () => {
     });
   };
 
-  const onError = (error) => {
+  const onError: SubmitErrorHandler<RegisterFormData> = (error) => {
     console.log(error);
   };
 
-  const pw = useRef();
-  pw.current = watch("password");
-
-  const emailValue = useRef();
-  emailValue.current = watch("email");
-
-  useEffect(() => {
-    setEmail(emailValue.current);
-  }, [emailValue.current]);
+  const pwRef = useRef<string>();
+  pwRef.current = watch("password");
 
   return (
     <RegisterWrapper>
@@ -115,26 +98,21 @@ const Register = () => {
           <input
             type="text"
             placeholder="abcd@gmail.com"
-            name="email"
             {...register("email", {
               required: "이메일을 입력해주세요.",
               pattern: {
                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                 message: "이메일 형식에 맞게 작성해주세요",
-                validate: (value) => setEmail(value),
               },
             })}
+            onChange={(e) => setEmail(e.target.value)}
           />
-          <button type="text" onClick={handleAuthEmail}>
-            이메일 인증
-          </button>
+          <button onClick={handleAuthEmail}>이메일 인증</button>
         </div>
         {isOpenAuth && (
           <div className="email">
             <input type="text" onChange={handleAuthCode} value={authCode} />
-            <button type="text" onClick={compareCode}>
-              확인
-            </button>
+            <button onClick={compareCode}>확인</button>
           </div>
         )}
         {!isSame && <ErrorMessage>인증번호를 다시 확인해주세요</ErrorMessage>}
@@ -145,7 +123,6 @@ const Register = () => {
           autoComplete="off"
           type="password"
           placeholder="영문, 숫자의 조합으로 8자 이상 입력해주세요"
-          name="password"
           {...register("password", {
             required: "비밀번호를 입력해주세요.",
             minLength: {
@@ -168,20 +145,18 @@ const Register = () => {
           autoComplete="off"
           type="password"
           placeholder="비밀번호와 동일하게 입력해주세요"
-          name="pwCheck"
           {...register("pwCheck", {
             required: "비밀번호 확인을 입력해주세요.",
-            validate: (value) => value === pw.current,
+            validate: (value) => value === pwRef.current,
           })}
         />
-        {errors.pwCheck && errors.pwCheck.type == "validate" && (
+        {errors.pwCheck && errors.pwCheck.type === "validate" && (
           <ErrorMessage>비밀번호가 일치하지 않습니다.</ErrorMessage>
         )}
         <label>닉네임</label>
         <input
           type="text"
           placeholder="닉네임을 두 글자 이상으로 입력해주세요"
-          name="password"
           {...register("nickname", {
             required: "닉네임을 입력해주세요.",
             minLength: {
