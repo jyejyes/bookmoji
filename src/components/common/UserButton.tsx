@@ -2,7 +2,13 @@ import React from "react";
 import styled from "styled-components";
 import { userButton } from "../style/theme";
 
-const UserButton = ({ content, name, onClick }) => {
+interface Props {
+  content: string;
+  name: string;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
+const UserButton = ({ content, name, onClick }: Props) => {
   return (
     <UserBtn name={name} onClick={onClick}>
       {content}
