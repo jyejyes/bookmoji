@@ -59,9 +59,11 @@
 ### FE
 
 - HTML
+- Typescript
 - JavaScript
 - React
 - Styled-components
+- React-query
 - Redux
 - Router
 - React-hook-form
