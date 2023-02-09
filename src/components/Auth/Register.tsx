@@ -1,3 +1,4 @@
+import { useMutation } from "@tanstack/react-query";
 import React, { useRef, useState } from "react";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
@@ -50,16 +51,24 @@ const Register = () => {
   };
 
   //회원가입 api
-  const registerApi = async (data: RegisterFormData) => {
-    try {
-      const res = await apiClient.post("users/signup", data);
-
-      if (res.data.code === 1000) navigate("/auth/login");
-      if (res.data.code === 2017) alert("이미 가입된 이메일입니다");
-    } catch (e) {
-      console.log(e);
-    }
+  /**
+   * @POST 회원가입 api
+   * @param data RegisterFormData
+   */
+  const registerApi = async (signupData: RegisterFormData) => {
+    const { data } = await apiClient.post("users/signup", signupData);
+    return data;
   };
+
+  const { mutate } = useMutation(registerApi, {
+    onSuccess: (data) => {
+      if (data?.code === 1000) navigate("/auth/login");
+      if (data?.code === 2017) alert("이미 가입된 이메일입니다");
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
   //react-form-hook 라이브러리
   const {
@@ -75,11 +84,12 @@ const Register = () => {
   const onSubmit: SubmitHandler<RegisterFormData> = (
     data: RegisterFormData
   ) => {
-    registerApi({
-      email: data.email,
-      password: data.password,
-      nickname: data.nickname,
-    });
+    authCode &&
+      mutate({
+        email: data.email,
+        password: data.password,
+        nickname: data.nickname,
+      });
   };
 
   const onError: SubmitErrorHandler<RegisterFormData> = (error) => {

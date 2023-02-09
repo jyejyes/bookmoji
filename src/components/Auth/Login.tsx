@@ -13,6 +13,7 @@ import { useNavigate } from "react-router";
 import { apiClient } from "../../api/apiClient";
 import { ReactComponent as KaKao } from "../../svg/ic-kakao.svg";
 import { LoginFormData } from "../../type/type";
+import { useMutation } from "@tanstack/react-query";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -24,29 +25,32 @@ const Login = () => {
   const REDIRECT_URI = "https://bookmoji.netlify.app/oauth";
   const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?client_id=${API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
-  //로그인 api
-  const loginApi = async (data: LoginFormData) => {
-    try {
-      const res = await apiClient.post("users/login", data);
-      //로그인 성공시
-      if (res.data.isSuccess) {
-        localStorage.setItem("jwt", res.data.result.jwt);
-        localStorage.setItem("userIdx", res.data.result.userIdx);
-        localStorage.setItem("profileUrl", res.data.result.profileImgUrl);
+  //@GET, 로그인 api
+  const userLogin = async (loginData: LoginFormData) => {
+    const { data } = await apiClient.post("users/login", loginData);
+    return data;
+  };
+
+  const { mutate } = useMutation(userLogin, {
+    onSuccess: (data) => {
+      if (data?.isSuccess) {
+        localStorage.setItem("jwt", data?.result?.jwt);
+        localStorage.setItem("userIdx", data?.result?.userIdx);
+        localStorage.setItem("profileUrl", data?.result?.profileImgUrl);
         navigate("/");
       }
-      // 에러
       if (
-        res.data.code === 3014 ||
-        res.data.code === 3015 ||
-        res.data.code === 3016 ||
-        res.data.code === 4000
+        data?.code === 3014 ||
+        data?.code === 3015 ||
+        data?.code === 3016 ||
+        data?.code === 4000
       )
-        setError(res.data.message);
-    } catch (e) {
-      console.log(e);
-    }
-  };
+        setError(data?.message);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
   const {
     register,
@@ -57,7 +61,7 @@ const Login = () => {
     reValidateMode: "onChange",
   });
   const onSubmit: SubmitHandler<LoginFormData> = (data) => {
-    loginApi({
+    mutate({
       email: data.email,
       password: data.password,
     });
