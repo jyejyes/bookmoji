@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { color, device, flexCenter } from "../style/theme";
 import { ReactComponent as Home } from "../../svg/ic-home.svg";
@@ -9,23 +9,23 @@ import { useLocation, useNavigate } from "react-router";
 
 const NavBar = () => {
   const navigate = useNavigate();
-  const [location, setLocation] = useState(useLocation().pathname);
+  const location = useLocation().pathname;
 
   return (
     <BottomNav>
-      <div name="home" onClick={() => navigate("/")}>
+      <div onClick={() => navigate("/")}>
         <HomeStyle name="home" location={location} />
         <p>홈</p>
       </div>
-      <div name="search" onClick={() => navigate("/m/search")}>
+      <div onClick={() => navigate("/m/search")}>
         <SearchStyle location={location} />
         <p>검색</p>
       </div>
-      <div name="collect" onClick={() => navigate("/collect")}>
+      <div onClick={() => navigate("/collect")}>
         <ChartStyle location={location} />
         <p>모아보기</p>
       </div>
-      <div name="user" onClick={() => navigate("/users")}>
+      <div onClick={() => navigate("/users")}>
         <UserStyle location={location} />
         <p>마이 북모지</p>
       </div>
@@ -58,14 +58,12 @@ const BottomNav = styled.nav`
       p {
         margin-top: 0.6rem;
         font-size: 1.1rem;
-        color: ${(props) =>
-          props.location === "/" ? color.Main : color.medium_gray2};
       }
     }
   }
 `;
 
-const HomeStyle = styled(Home)`
+const HomeStyle = styled(Home)<{ location: string }>`
   fill: ${(props) =>
     props.location === "/" ? color.Main : color.medium_gray2};
   width: 2.3rem;
@@ -74,13 +72,13 @@ const HomeStyle = styled(Home)`
   }
 `;
 
-const SearchStyle = styled(Search)`
+const SearchStyle = styled(Search)<{ location: string }>`
   width: 1.8rem;
   stroke: ${(props) =>
     props.location === "/m/search" ? color.Main : color.medium_gray2};
 `;
 
-const ChartStyle = styled(Chart)`
+const ChartStyle = styled(Chart)<{ location: string }>`
   fill: ${(props) =>
     props.location === "/collect" ? color.Main : color.medium_gray2};
   width: 2.1rem;
@@ -90,7 +88,7 @@ const ChartStyle = styled(Chart)`
   }
 `;
 
-const UserStyle = styled(User)`
+const UserStyle = styled(User)<{ location: string }>`
   fill: ${(props) =>
     props.location === "/users" ? color.Main : color.medium_gray2};
   width: 1.6rem;
