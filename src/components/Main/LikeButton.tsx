@@ -1,3 +1,4 @@
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import styled from "styled-components";
 import { apiClient } from "../../api/apiClient";
@@ -12,49 +13,49 @@ interface Props {
 const LikeButton = ({ reviewIdx, hasLiked }: Props) => {
   const userIdx = localStorage.getItem("userIdx");
   const [isLiked, setIsLiked] = useState(hasLiked);
-  const handleClickLike: React.MouseEventHandler<SVGSVGElement> = (e) => {
+
+  /**
+   * 하트 클릭 함수
+   */
+  const handleClickLike: React.MouseEventHandler<SVGSVGElement> = () => {
     setIsLiked(!isLiked);
     if (isLiked) {
-      deleteLikeApi();
+      deleteLiked.mutate();
     } else {
-      createLikeApi();
+      createLiked.mutate();
     }
   };
 
-  //16번 : 좋아요 생성 api
-  const createLikeApi = async () => {
-    try {
-      const res = await apiClient.post(
-        `likes?userIdx=${userIdx}&reviewIdx=${reviewIdx}`
-      );
-      if (!res.data.isSuccess) {
-        alert(res.data.message);
-      }
-    } catch (e) {
-      console.log(e);
+  /**
+   * @POST 16: 좋아요 생성 api
+   */
+  const createLiked = useMutation(
+    () => apiClient.post(`likes?userIdx=${userIdx}&reviewIdx=${reviewIdx}`),
+    {
+      onError: (error) => {
+        console.log(error);
+      },
     }
-  };
+  );
 
-  //17번 : 좋아요 삭제 api
-  const deleteLikeApi = async () => {
-    try {
-      const res = await apiClient.patch(
-        `likes?userIdx=${userIdx}&reviewIdx=${reviewIdx}`
-      );
-      if (!res.data.isSuccess) {
-        alert(res.data.message);
-      }
-    } catch (e) {
-      console.log(e);
+  /**
+   * @POST 17: 좋아요 삭제 api
+   */
+  const deleteLiked = useMutation(
+    () => apiClient.patch(`likes?userIdx=${userIdx}&reviewIdx=${reviewIdx}`),
+    {
+      onError: (error) => {
+        console.log(error);
+      },
     }
-  };
+  );
 
-  return <LikeBtn liked={isLiked} onClick={handleClickLike} />;
+  return <LikeBtn liked={isLiked ? 1 : 0} onClick={handleClickLike} />;
 };
 
 export default LikeButton;
 
-const LikeBtn = styled(Like)<{ liked: boolean }>`
+const LikeBtn = styled(Like)<{ liked: number }>`
   position: absolute;
   bottom: 5%;
   right: 2%;
