@@ -1,6 +1,12 @@
 import axios from "axios";
 
-const Kakao = axios.create({
+interface BookSearchProps {
+  query: string;
+  page: number;
+  size: number;
+}
+
+export const Kakao = axios.create({
   baseURL: "https://dapi.kakao.com",
   headers: {
     Authorization: `KakaoAK ${process.env.REACT_APP_KAKAO_REST_API}`,
@@ -8,6 +14,6 @@ const Kakao = axios.create({
 });
 
 //search book api
-export const bookSearch = (params) => {
+export const bookSearch = (params: BookSearchProps) => {
   return Kakao.get("/v3/search/book", { params });
 };
