@@ -9,13 +9,14 @@ import Modal from "../components/common/Modal";
 import NavBar from "../components/common/NavBar";
 import FooterSection from "../components/Footer/Footer";
 import Header from "../components/Header/Header";
+import ReviewModal from "../components/Review/ReviewModal";
 import { color, device, flexCenter } from "../components/style/theme";
 import { queryKeys } from "../constant/queryKeys";
 import { addRecentSearch } from "../store/actions/recentSearch";
 import { KakaoBook } from "../type/type";
 
 const SearchPage = () => {
-  const { bookName } = useParams(); //url 에서 책 제목
+  const { bookName } = useParams() as { bookName: string }; //url 에서 책 제목
 
   const [isbn, setIsbn] = useState(""); //책 고유 isbn 값
   const [isModalOpen, setIsModalOpen] = useState(false); //책 상세 모달 토글 state
@@ -76,11 +77,9 @@ const SearchPage = () => {
       ) : (
         <main className="result">
           {isModalOpen && (
-            <Modal
-              handleOpenModal={handleModalOpen}
-              whatBtn="book"
-              isbn={isbn}
-            />
+            <Modal handleOpenModal={handleModalOpen}>
+              <ReviewModal isbn={isbn} handleOpenModal={handleModalOpen} />
+            </Modal>
           )}
           {!bookDatas?.documents ? (
             <p className="no-result">
