@@ -55,20 +55,19 @@ const Register = () => {
    * @POST 회원가입 api
    * @param data RegisterFormData
    */
-  const registerApi = async (signupData: RegisterFormData) => {
-    const { data } = await apiClient.post("users/signup", signupData);
-    return data;
-  };
-
-  const { mutate } = useMutation(registerApi, {
-    onSuccess: (data) => {
-      if (data?.code === 1000) navigate("/auth/login");
-      if (data?.code === 2017) alert("이미 가입된 이메일입니다");
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
+  const { mutate } = useMutation(
+    (signupData: RegisterFormData) =>
+      apiClient.post("users/signup", signupData),
+    {
+      onSuccess: ({ data }) => {
+        if (data?.code === 1000) navigate("/auth/login");
+        if (data?.code === 2017) alert("이미 가입된 이메일입니다");
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+    }
+  );
 
   //react-form-hook 라이브러리
   const {
