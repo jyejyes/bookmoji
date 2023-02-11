@@ -8,15 +8,13 @@ import {
   userSubject,
   userText,
 } from "../style/theme";
+import LogoutModal from "./ModalContent/LogoutModal";
 
 const Logout = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [clickWhatBtn, setClickWhatBtn] = useState("");
 
-  const handleOpenModal = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const { name } = e.target as HTMLButtonElement;
+  const handleOpenModal = () => {
     setIsModalOpen(!isModalOpen);
-    setClickWhatBtn(name);
     document.body.style.overflow = "unset";
   };
 
@@ -30,7 +28,9 @@ const Logout = () => {
         </button>
       </LogoutWrapper>
       {isModalOpen && (
-        <Modal handleOpenModal={handleOpenModal} whatBtn={clickWhatBtn} />
+        <Modal handleOpenModal={handleOpenModal}>
+          <LogoutModal handleOpenModal={handleOpenModal} />
+        </Modal>
       )}
     </>
   );

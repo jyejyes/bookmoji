@@ -3,16 +3,25 @@ import styled from "styled-components";
 import { color, device, userSubject } from "../style/theme";
 import Modal from "../common/Modal";
 import UserButton from "../common/UserButton";
+import ChangeNicknameModal from "./ModalContent/ChangeNicknameModal";
 
 const ChangeInfo = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [clickWhatBtn, setClickWhatBtn] = useState("");
+  const [isOpenNicknameModal, setIsOpenNicknameModal] = useState(false);
+  const [isOpenPasswordModal, setIsOpenPasswordModal] = useState(false);
 
-  const handleOpenModal = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const { name } = e.target as HTMLButtonElement;
-    setIsModalOpen(!isModalOpen);
-    setClickWhatBtn(name);
+  /**
+   * 닉네임 모달 토글
+   */
+  const handleToggleNicknameModal = () => {
+    setIsOpenNicknameModal(!isOpenNicknameModal);
   };
+  /**
+   * 비밀번호 모달 토글
+   */
+  const handleTogglePasswordModal = () => {
+    setIsOpenPasswordModal(!isOpenPasswordModal);
+  };
+
   return (
     <ChangeInfoWrapper>
       <h2>개인정보 수정</h2>
@@ -20,16 +29,19 @@ const ChangeInfo = () => {
       <UserButton
         content="닉네임 변경"
         name="changeName"
-        onClick={handleOpenModal}
+        onClick={handleToggleNicknameModal}
       />
       <p>비밀번호 변경</p>
       <UserButton
         content="비밀번호 변경"
         name="changePw"
-        onClick={handleOpenModal}
+        onClick={handleTogglePasswordModal}
       />
-      {isModalOpen && (
-        <Modal handleOpenModal={handleOpenModal} whatBtn={clickWhatBtn} />
+      {/* 닉네임 모달 */}
+      {isOpenNicknameModal && (
+        <Modal handleOpenModal={handleToggleNicknameModal}>
+          <ChangeNicknameModal handleOpenModal={handleToggleNicknameModal} />
+        </Modal>
       )}
     </ChangeInfoWrapper>
   );

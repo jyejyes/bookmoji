@@ -8,15 +8,13 @@ import {
   userSubject,
   userText,
 } from "../style/theme";
+import DeleteUserModal from "./ModalContent/DeleteUserModal";
 
 const DeleteUser = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [clickWhatBtn, setClickWhatBtn] = useState("");
 
-  const handleOpenModal = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const { name } = e.target as HTMLButtonElement;
+  const handleOpenModal = () => {
     setIsModalOpen(!isModalOpen);
-    setClickWhatBtn(name);
     document.body.style.overflow = "unset";
   };
   return (
@@ -28,7 +26,9 @@ const DeleteUser = () => {
       </button>
 
       {isModalOpen && (
-        <Modal handleOpenModal={handleOpenModal} whatBtn={clickWhatBtn} />
+        <Modal handleOpenModal={handleOpenModal}>
+          <DeleteUserModal />
+        </Modal>
       )}
     </DeleteWrapper>
   );
