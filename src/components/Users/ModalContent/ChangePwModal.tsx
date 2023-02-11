@@ -3,7 +3,7 @@ import React, { useRef, useState } from "react";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 import { apiClient } from "../../../api/apiClient";
-import { UserPassworkFormData } from "../../../type/type";
+import { ChangePasswordFormData } from "../../../type/type";
 import {
   authLabel,
   changeInput,
@@ -12,14 +12,34 @@ import {
   mainColorButton,
 } from "../../style/theme";
 
-// interface Props {
-//   handleOpenModal: () => void;
-// }
+interface Props {
+  handleOpenModal: () => void;
+}
 
-const ChangePwModal = ({ handleOpenModal }) => {
+const ChangePwModal = ({ handleOpenModal }: Props) => {
   const userIdx = Number(localStorage.getItem("userIdx"));
   const [success] = useState("");
   const [error, setError] = useState("");
+
+  /**
+   * @PATCH 비밀번호 변경 api
+   */
+  const { mutate } = useMutation(
+    (changePasswordDatas: ChangePasswordFormData) =>
+      apiClient.patch(`users/info/password`, changePasswordDatas),
+    {
+      onSuccess: ({ data }) => {
+        if (data?.isSuccess) {
+          alert(data?.message);
+          handleOpenModal();
+        }
+        if (data?.code === 3017 || data?.code === 3018) setError(data?.message);
+      },
+      onError: (e) => {
+        console.log(e);
+      },
+    }
+  );
 
   //react-form-hook
   const {
@@ -27,44 +47,26 @@ const ChangePwModal = ({ handleOpenModal }) => {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm <
-  UserPassworkFormData >
-  {
+  } = useForm<ChangePasswordFormData>({
     mode: "onSubmit",
     reValidateMode: "onChange",
-  };
+  });
 
-  const onSubmit = (data) => {
-    mutate(data?.currentPw, data?.password);
+  const onSubmit: SubmitHandler<ChangePasswordFormData> = (
+    data: ChangePasswordFormData
+  ) => {
+    mutate({
+      userIdx: userIdx,
+      currentPassword: data.currentPassword,
+      newPassword: data.newPassword,
+    });
   };
-  const onError = (error) => {
+  const onError: SubmitErrorHandler<ChangePasswordFormData> = (error) => {
     console.log(error);
   };
 
-  const pw = useRef();
-  pw.current = watch("password");
-
-  //api 호출 2 : 비번 변경
-  const changePasswordApi = async (currentPassword, newPassword) => {
-    const { data } = await apiClient.patch(`users/info/password`, {
-      userIdx: userIdx,
-      currentPassword: currentPassword,
-      newPassword: newPassword,
-    });
-    return data;
-  };
-  const { mutate } = useMutation(changePasswordApi, {
-    onSuccess: (data) => {
-      if (data?.isSuccess) {
-        alert(data?.message);
-        handleOpenModal();
-      }
-      if (data?.code === 3017 || data?.code === 3018) setError(data?.message);
-    },
-    onError: (e) => {
-      console.log(e);
-    },
-  });
+  const pwRef = useRef<string>();
+  pwRef.current = watch("newPassword");
 
   return (
     <Wrapper>
@@ -74,7 +76,7 @@ const ChangePwModal = ({ handleOpenModal }) => {
           autoComplete="off"
           type="password"
           placeholder="영문, 숫자의 조합으로 8자 이상 입력해주세요"
-          {...register("currentPw", {
+          {...register("currentPassword", {
             required: "비밀번호를 입력해주세요.",
             minLength: {
               value: 8,
@@ -87,7 +89,9 @@ const ChangePwModal = ({ handleOpenModal }) => {
             },
           })}
         />
-        {errors.currentPw && <span>{errors.currentPw.message}</span>}
+        {errors.currentPassword && (
+          <span>{errors.currentPassword.message}</span>
+        )}
         {error && <span>{error}</span>}
 
         <label>변경할 비밀번호</label>
@@ -95,7 +99,7 @@ const ChangePwModal = ({ handleOpenModal }) => {
           autoComplete="off"
           type="password"
           placeholder="영문, 숫자의 조합으로 8자 이상 입력해주세요"
-          {...register("password", {
+          {...register("newPassword", {
             required: "비밀번호를 입력해주세요.",
             minLength: {
               value: 8,
@@ -108,8 +112,8 @@ const ChangePwModal = ({ handleOpenModal }) => {
             },
           })}
         />
-        {errors.password && (
-          <ErrorMessage>{errors.password.message}</ErrorMessage>
+        {errors.newPassword && (
+          <ErrorMessage>{errors.newPassword.message}</ErrorMessage>
         )}
 
         <label>비밀번호 확인</label>
@@ -117,10 +121,9 @@ const ChangePwModal = ({ handleOpenModal }) => {
           autoComplete="off"
           type="password"
           placeholder="비밀번호와 동일하게 입력해주세요"
-          name="pwCheck"
           {...register("pwCheck", {
             required: "비밀번호 확인을 입력해주세요.",
-            validate: (value) => value === pw.current,
+            validate: (value) => value === pwRef.current,
           })}
         />
         {errors.pwCheck && errors.pwCheck.type === "validate" && (

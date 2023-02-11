@@ -74,9 +74,17 @@ export interface KakaoBook {
 export interface UserNicknameFormData {
   nickname: string;
 }
-export interface UserPassworkFormData {
+export interface UserPasswordormData {
   currentPw: string;
   password: string;
+  pwCheck?: string;
+}
+
+export interface ChangePasswordFormData {
+  userIdx: number;
+  currentPassword: string;
+  newPassword: string;
+  pwCheck?: string;
 }
 
 //월별 차트 데이터 타입

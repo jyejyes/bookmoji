@@ -4,6 +4,7 @@ import { color, device, userSubject } from "../style/theme";
 import Modal from "../common/Modal";
 import UserButton from "../common/UserButton";
 import ChangeNicknameModal from "./ModalContent/ChangeNicknameModal";
+import ChangePwModal from "./ModalContent/ChangePwModal";
 
 const ChangeInfo = () => {
   const [isOpenNicknameModal, setIsOpenNicknameModal] = useState(false);
@@ -41,6 +42,12 @@ const ChangeInfo = () => {
       {isOpenNicknameModal && (
         <Modal handleOpenModal={handleToggleNicknameModal}>
           <ChangeNicknameModal handleOpenModal={handleToggleNicknameModal} />
+        </Modal>
+      )}
+      {/* 비밀번호 모달 */}
+      {isOpenPasswordModal && (
+        <Modal handleOpenModal={handleTogglePasswordModal}>
+          <ChangePwModal handleOpenModal={handleTogglePasswordModal} />
         </Modal>
       )}
     </ChangeInfoWrapper>
