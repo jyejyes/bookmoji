@@ -5,13 +5,13 @@ import BarChart from "./BarChart";
 import CollectSubject from "./CollectSubject";
 import PieChart from "./PieChart";
 
-const Report = () => {
+const ChartReport = () => {
   return (
     <Section>
       <CollectSubject content="통계 모아보기" />
-      <select name="year">
+      {/* <select name="year">
         <option value="2022">2022</option>
-      </select>
+      </select> */}
       <div className="charts">
         <PieChart />
         <BarChart />
@@ -20,7 +20,7 @@ const Report = () => {
   );
 };
 
-export default Report;
+export default ChartReport;
 
 const Section = styled.section`
   padding: 3rem 0 5rem 0;

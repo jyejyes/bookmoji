@@ -1,119 +1,132 @@
-import React, { useEffect, useState, useSyncExternalStore } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { apiClient } from "../../api/apiClient";
 import BookInfo from "../common/BookInfo";
 import LoadingSpinner from "../common/LoadingSpinner";
 import { color } from "../style/theme";
 
-const ReadReviewModal = ({ reviewIdx, handleOpenModal }) => {
-  const [loading, setLoading] = useState(true);
-  const [result, setResult] = useState("");
+interface Props {
+  reviewIdx: number;
+  handleOpenModal: (
+    e?: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => void;
+}
 
-  const [newEmoji, setNewEmoji] = useState(null);
-  const [newText, setNewText] = useState(result.text);
+const ReadReviewModal = ({ reviewIdx, handleOpenModal }: Props) => {
+  const [newText, setNewText] = useState("");
 
   const userIdx = localStorage.getItem("userIdx");
 
-  const handleDelete = () => {
-    const result = window.confirm("리뷰를 삭제하시겠습니까?");
-    if (result) {
-      deleteReviewApi();
-    }
-  };
-
-  //12: 특정 리뷰 조회 api
-  const detailReviewApi = async () => {
-    try {
-      const res = await apiClient.get(
-        `reviews/details?userIdx=${userIdx}&reviewIdx=${reviewIdx}`
-      );
-      setResult(res.data.result);
-      setNewText(res.data.result.text);
-      setLoading(false);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  //13. 리뷰 수정 api
-  const changeReviewApi = async () => {
-    try {
-      const res = await apiClient.patch("reviews/contents", {
-        userIdx: userIdx,
-        reviewIdx: reviewIdx,
-        emoji: result.emoji,
-        text: newText,
-      });
-
-      // 리뷰 수정 성공시
-      if (res.data.isSuccess) alert("리뷰가 수정되었습니다");
-      // 리뷰 수정 실패시 에러 처리
-      if (res.data.code !== 1000) alert(res.data.message);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  //14. 리뷰 삭제 api
-  const deleteReviewApi = async () => {
-    try {
-      const res = await apiClient.patch(
-        `reviews?userIdx=${userIdx}&reviewIdx=${reviewIdx}`
-      );
-      console.log(res);
-      if (res.data.code === 1000) {
-        alert("리뷰가 삭제되었습니다");
-        window.location.reload();
-        handleOpenModal();
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   //리뷰 텍스트 변경 함수
-  const handleChagneText = (e) => {
+  const handleChagneText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewText(e.target.value);
   };
 
-  useEffect(() => {
-    detailReviewApi();
-  }, []);
+  /**
+   * 수정 클릭 함수
+   */
+  const handleClickChange = () => {
+    changeReview.mutate();
+  };
+  /**
+   * 삭제 클릭 함수
+   */
+  const handleClickDelete: React.MouseEventHandler<HTMLButtonElement> = () => {
+    const result = window.confirm("리뷰를 삭제하시겠습니까?");
+    if (result) {
+      deleteReview.mutate();
+    }
+  };
+
+  //
+  /**
+   * @GET 12 : 특정 리뷰 조회 api
+   */
+  const { data: bookReview } = useQuery(
+    ["review"],
+    () =>
+      apiClient.get(
+        `reviews/details?userIdx=${userIdx}&reviewIdx=${reviewIdx}`
+      ),
+    {
+      select: (bookReview) => bookReview?.data?.result,
+      onError: (e) => console.log(e),
+    }
+  );
+
+  /**
+   * @PATCH 13. 리뷰 수정 api
+   */
+  const changeReviewApi = async () => {
+    const { data } = await apiClient.patch("reviews/contents", {
+      userIdx: userIdx,
+      reviewIdx: reviewIdx,
+      emoji: bookReview?.emoji,
+      text: newText,
+    });
+    return data;
+  };
+  const changeReview = useMutation(changeReviewApi, {
+    onSuccess: (data) => {
+      if (data?.isSuccess) alert("리뷰가 수정되었습니다");
+      else alert(data?.message);
+    },
+  });
+
+  //14. 리뷰 삭제 api
+  const deleteReviewApi = async () => {
+    const { data } = await apiClient.patch(
+      `reviews?userIdx=${userIdx}&reviewIdx=${reviewIdx}`
+    );
+    return data;
+  };
+  const deleteReview = useMutation(deleteReviewApi, {
+    onSuccess: (data) => {
+      if (data?.isSuccess) {
+        alert("리뷰가 삭제되었습니다");
+        window.location.reload();
+        handleOpenModal();
+      } else alert(data?.message);
+    },
+  });
 
   return (
     <Wrapper>
-      {result.length === 0 ? (
+      {!bookReview ? (
         <LoadingSpinner />
       ) : (
         <ContentStyle>
           <BookInfo
-            thumbnail={result.thumbnailUrl}
-            title={result.title}
-            datetime={result.releaseYear}
-            author={result.author}
-            publisher={result.publisher}
-            contents={result.introduction}
-            url={result.url}
+            thumbnail={bookReview?.thumbnailUrl}
+            title={bookReview?.title}
+            datetime={bookReview?.releaseYear}
+            author={bookReview?.author}
+            publisher={bookReview?.publisher}
+            contents={bookReview?.introduction}
+            url={bookReview?.url}
           />
           <div className="reviews">
             <div className="emoji-section">
-              <span className="emoji">{result.emoji.split(" ")[0]}</span>
-              <span className="emoji-text">{result.emoji.split(" ")[1]}</span>
+              <span className="emoji">{bookReview?.emoji.split(" ")[0]}</span>
+              <span className="emoji-text">
+                {bookReview?.emoji.split(" ")[1]}
+              </span>
             </div>
 
             <textarea
-              cols="30"
-              rows="5"
+              cols={30}
+              rows={5}
               placeholder="이 작품에 대한 감상을 마음껏 남겨보세요"
-              defaultValue={result.text}
+              defaultValue={bookReview?.text}
               onChange={handleChagneText}
             ></textarea>
           </div>
           <div className="buttons">
-            <button className="review-change-btn" onClick={changeReviewApi}>
+            <button className="review-change-btn" onClick={handleClickChange}>
               리뷰 수정하기
             </button>
-            <button className="review-delete-btn" onClick={handleDelete}>
+            <button className="review-delete-btn" onClick={handleClickDelete}>
               리뷰 삭제하기
             </button>
           </div>

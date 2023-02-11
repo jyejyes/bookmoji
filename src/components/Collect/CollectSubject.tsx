@@ -2,7 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import { color, flexCenter } from "../style/theme";
 
-const CollectSubject = ({ content }) => {
+interface Props {
+  content: string;
+}
+
+const CollectSubject = ({ content }: Props) => {
   return (
     <Wrapper>
       <SubjectText>{content}</SubjectText>

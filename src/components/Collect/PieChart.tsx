@@ -1,51 +1,44 @@
 import { ArcElement, Chart, Legend, Tooltip } from "chart.js";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { Bar, Pie } from "react-chartjs-2";
+import { Pie } from "react-chartjs-2";
 import { apiClient } from "../../api/apiClient";
 import { color, device, flexCenter } from "../style/theme";
+import { useQuery } from "@tanstack/react-query";
+import { queryKeys } from "../../constant/queryKeys";
+import { EmojiChartData } from "../../type/type";
 
 Chart.register(ArcElement, Tooltip, Legend);
 
 const PieChart = () => {
-  const [year, setYear] = useState(0);
-  const userIdx = localStorage.getItem("userIdx");
-
-  //파이 차트 속성
-  const [labels, setLabels] = useState([]);
-  const [datasets, setDatasets] = useState([]);
-  const [noReview, setNoReview] = useState(false); //리뷰 존재여부
+  const year = 0;
+  const userIdx = localStorage.getItem("userIdx") ?? "";
 
   //9 : 리뷰 이모지 통계 조회 api
-  const emojiAnalysisApi = async () => {
-    try {
-      const res = await apiClient.get(
-        `reviews/analysis/emoji?userIdx=${userIdx}&year=${year}`
-      );
-      //성공시
-      if (res.data.code === 1000) {
-        setLabels(res.data.result.map((item) => item.emoji));
-        setDatasets(res.data.result.map((item) => item.emojiPercentage));
-        setNoReview(false);
-      }
-      //리뷰가 없을 때
-      if (res.data.code === 3028) {
-        setNoReview(true);
-      }
-    } catch (e) {
-      console.log(e);
+  const { data: emojiChartDatas } = useQuery(
+    [queryKeys?.REVIEW_EMOJI_KEY],
+    () =>
+      apiClient.get(`reviews/analysis/emoji?userIdx=${userIdx}&year=${year}`),
+    {
+      select: (emojiChartDatas) => {
+        return {
+          labels: emojiChartDatas?.data?.result?.map(
+            (item: EmojiChartData) => item?.emoji
+          ),
+          datasets: emojiChartDatas?.data?.result?.map(
+            (item: EmojiChartData) => item?.emojiPercentage
+          ),
+        };
+      },
     }
-  };
-  useEffect(() => {
-    emojiAnalysisApi();
-  }, []);
+  );
 
   const data = {
-    labels: labels,
+    labels: emojiChartDatas?.labels,
     datasets: [
       {
         label: "Emoji",
-        data: datasets,
+        data: emojiChartDatas?.datasets,
         backgroundColor: [
           "rgb(248,211,197)",
           "rgb(252,238,233)",
@@ -63,7 +56,7 @@ const PieChart = () => {
 
   return (
     <Wrapper>
-      {noReview ? (
+      {!emojiChartDatas?.labels ? (
         <p className="no-review">리뷰를 작성하면 원형 차트를 볼 수 있어요</p>
       ) : (
         <Pie data={data} />
