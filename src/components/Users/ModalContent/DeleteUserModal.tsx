@@ -3,40 +3,52 @@ import styled from "styled-components";
 import { color, flexCenter, mainColorButton } from "../../style/theme";
 import { apiClient } from "../../../api/apiClient";
 import { useNavigate } from "react-router";
+import { useMutation } from "@tanstack/react-query";
 
 const DeleteUserModal = () => {
-  const userIdx = localStorage.getItem("userIdx");
+  //state
+  const userIdx = localStorage.getItem("userIdx") ?? "";
   const [reason, setReason] = useState("");
   const navigate = useNavigate();
 
+  //function
+  //탈퇴 버튼 클릭
+  const handleClickDelete: React.MouseEventHandler<HTMLButtonElement> = () => {
+    mutate();
+  };
+
   // 탈퇴 이유 클릭시
-  const handleClickReason = (e) => {
+  const handleClickReason = (e: React.ChangeEvent<HTMLLabelElement>) => {
     setReason(e.target.htmlFor);
   };
 
-  //8 : 탈퇴 api
+  //API
+  /**
+   * @PATCH 8: 탈퇴 API
+   */
   const deleteUserApi = async () => {
-    try {
-      const res = await apiClient.patch(`users/account?userIdx=${userIdx}`, {
-        userIdx: userIdx,
-        quitReason: reason,
-      });
-      if (res.data.isSuccess) {
+    const { data } = await apiClient.patch(`users/account?userIdx=${userIdx}`, {
+      userIdx: userIdx,
+      quitReason: reason,
+    });
+    return data;
+  };
+
+  const { mutate } = useMutation(deleteUserApi, {
+    onSuccess: (data) => {
+      if (data?.isSuccess) {
         alert("회원 탈퇴에 성공하셨습니다. 하지만 언제든 돌아오세요.");
         navigate("/");
         localStorage.clear();
+      } else {
+        alert(data?.message);
       }
-      if (res.data.code !== 1000) {
-        alert(res.data.message);
-      }
-    } catch (e) {
+    },
+    onError: (e) => {
       console.log(e);
-    }
-  };
+    },
+  });
 
-  const handleClickDelete = () => {
-    deleteUserApi();
-  };
   return (
     <Wrapper>
       <h2>북모지를 탈퇴하시나요? 😭</h2>
@@ -44,19 +56,19 @@ const DeleteUserModal = () => {
       <form>
         <p>
           <input type="radio" id="not-match" name="delete" />
-          <label htmlFor="not-match" onClick={handleClickReason}>
+          <label htmlFor="not-match" onChange={handleClickReason}>
             서비스가 저와 맞지 않아요.
           </label>
         </p>
         <p>
           <input type="radio" id="uncomfortable" name="delete" />
-          <label htmlFor="uncomfortable" onClick={handleClickReason}>
+          <label htmlFor="uncomfortable" onChange={handleClickReason}>
             사이트 이용이 불편해요.
           </label>
         </p>
         <p>
           <input type="radio" id="no-reason" name="delete" />
-          <label htmlFor="no-reason" onClick={handleClickReason}>
+          <label htmlFor="no-reason" onChange={handleClickReason}>
             이유가 없어요.
           </label>
         </p>

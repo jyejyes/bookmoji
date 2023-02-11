@@ -3,9 +3,14 @@ import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { color, mainColorButton, whiteButton } from "../../style/theme";
 
-const LogoutModal = ({ handleOpenModal }) => {
+interface Props {
+  handleOpenModal: () => void;
+}
+
+const LogoutModal = ({ handleOpenModal }: Props) => {
   const navigate = useNavigate();
-  const handleLogout = () => {
+
+  const handleLogout: React.MouseEventHandler<HTMLButtonElement> = () => {
     localStorage.removeItem("jwt");
     localStorage.removeItem("userIdx");
     localStorage.removeItem("profileUrl");

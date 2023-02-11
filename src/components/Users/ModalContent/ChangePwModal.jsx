@@ -1,7 +1,9 @@
+import { useMutation } from "@tanstack/react-query";
 import React, { useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 import { apiClient } from "../../../api/apiClient";
+import { UserPassworkFormData } from "../../../type/type";
 import {
   authLabel,
   changeInput,
@@ -10,9 +12,13 @@ import {
   mainColorButton,
 } from "../../style/theme";
 
+// interface Props {
+//   handleOpenModal: () => void;
+// }
+
 const ChangePwModal = ({ handleOpenModal }) => {
-  const userIdx = localStorage.getItem("userIdx");
-  const [success, setSuccess] = useState("");
+  const userIdx = Number(localStorage.getItem("userIdx"));
+  const [success] = useState("");
   const [error, setError] = useState("");
 
   //react-form-hook
@@ -21,13 +27,15 @@ const ChangePwModal = ({ handleOpenModal }) => {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm({
+  } = useForm <
+  UserPassworkFormData >
+  {
     mode: "onSubmit",
     reValidateMode: "onChange",
-  });
+  };
 
   const onSubmit = (data) => {
-    changePwApi(data.currenPw, data.password);
+    mutate(data?.currentPw, data?.password);
   };
   const onError = (error) => {
     console.log(error);
@@ -37,23 +45,26 @@ const ChangePwModal = ({ handleOpenModal }) => {
   pw.current = watch("password");
 
   //api 호출 2 : 비번 변경
-  const changePwApi = async (currentPassword, newPassword) => {
-    try {
-      const res = await apiClient.patch(`users/info/password`, {
-        userIdx: userIdx,
-        currentPassword: currentPassword,
-        newPassword: newPassword,
-      });
-      if (res.data.isSuccess) {
-        alert(res.data.message);
+  const changePasswordApi = async (currentPassword, newPassword) => {
+    const { data } = await apiClient.patch(`users/info/password`, {
+      userIdx: userIdx,
+      currentPassword: currentPassword,
+      newPassword: newPassword,
+    });
+    return data;
+  };
+  const { mutate } = useMutation(changePasswordApi, {
+    onSuccess: (data) => {
+      if (data?.isSuccess) {
+        alert(data?.message);
         handleOpenModal();
       }
-      if (res.data.code === 3017 || res.data.code === 3018)
-        setError(res.data.message);
-    } catch (e) {
+      if (data?.code === 3017 || data?.code === 3018) setError(data?.message);
+    },
+    onError: (e) => {
       console.log(e);
-    }
-  };
+    },
+  });
 
   return (
     <Wrapper>
@@ -63,8 +74,7 @@ const ChangePwModal = ({ handleOpenModal }) => {
           autoComplete="off"
           type="password"
           placeholder="영문, 숫자의 조합으로 8자 이상 입력해주세요"
-          name="password"
-          {...register("currenPw", {
+          {...register("currentPw", {
             required: "비밀번호를 입력해주세요.",
             minLength: {
               value: 8,
@@ -77,7 +87,7 @@ const ChangePwModal = ({ handleOpenModal }) => {
             },
           })}
         />
-        {errors.currenPw && <span>{errors.currenPw.message}</span>}
+        {errors.currentPw && <span>{errors.currentPw.message}</span>}
         {error && <span>{error}</span>}
 
         <label>변경할 비밀번호</label>
@@ -85,7 +95,6 @@ const ChangePwModal = ({ handleOpenModal }) => {
           autoComplete="off"
           type="password"
           placeholder="영문, 숫자의 조합으로 8자 이상 입력해주세요"
-          name="password"
           {...register("password", {
             required: "비밀번호를 입력해주세요.",
             minLength: {
@@ -114,7 +123,7 @@ const ChangePwModal = ({ handleOpenModal }) => {
             validate: (value) => value === pw.current,
           })}
         />
-        {errors.pwCheck && errors.pwCheck.type == "validate" && (
+        {errors.pwCheck && errors.pwCheck.type === "validate" && (
           <ErrorMessage>비밀번호가 일치하지 않습니다.</ErrorMessage>
         )}
         {success && <p>{success} </p>}

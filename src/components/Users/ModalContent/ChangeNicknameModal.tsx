@@ -1,11 +1,11 @@
-import React, { isValidElement, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import React from "react";
+import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 import { apiClient } from "../../../api/apiClient";
-import { userInfo } from "../../../store/actions/userInfo";
+import { queryKeys } from "../../../constant/queryKeys";
+import { UserNicknameFormData } from "../../../type/type";
 import {
-  authInput,
   authLabel,
   changeInput,
   color,
@@ -13,57 +13,65 @@ import {
   mainColorButton,
 } from "../../style/theme";
 
-const ChangeNicknameModal = ({ handleOpenModal }) => {
-  const [nickname, setNickname] = useState("");
-  const userIdx = localStorage.getItem("userIdx");
+interface Props {
+  handleOpenModal: () => void;
+}
 
-  const dispatch = useDispatch();
+const ChangeNicknameModal = ({ handleOpenModal }: Props) => {
+  //state
+  const userIdx = Number(localStorage.getItem("userIdx"));
 
-  //api 호출 1 : 회원 정보(닉네임) 불러오기
-  const nicknameApi = async () => {
-    try {
-      const res = await apiClient.get(`users/info?userIdx=${userIdx}`);
-      setNickname(res.data.result.nickname);
-    } catch (e) {
-      console.log(e);
+  //API
+  /**
+   * @GET 회원 정보(닉네임) 불러오기
+   */
+  const { data: nickname } = useQuery(
+    [queryKeys?.USER_NICKNAME_KEY],
+    () => apiClient.get(`users/info?userIdx=${userIdx}`),
+    {
+      select: (nickname) => nickname?.data?.result?.nickname,
     }
-  };
+  );
 
-  //api 호출 2 : 닉네임 변경
-  const changeNicknameApi = async (newNickname) => {
-    try {
-      const res = await apiClient.patch(`users/info/nickname`, {
-        userIdx: userIdx,
-        nickname: newNickname,
-      });
-      if (res.data.isSuccess) {
-        dispatch(userInfo(newNickname));
-        alert(res.data.message);
+  /**
+   * @PATCH 회원 정보(닉네임) 변경하기
+   */
+  const changeNicknameApi = async (newNickname: string) => {
+    const { data } = await apiClient.patch(`users/info/nickname`, {
+      userIdx: userIdx,
+      nickname: newNickname,
+    });
+    return data;
+  };
+  const { mutate } = useMutation(changeNicknameApi, {
+    onSuccess: (data) => {
+      alert(data?.message);
+      if (data?.isSuccess) {
         handleOpenModal();
+      } else {
       }
-    } catch (e) {
+    },
+    onError: (e) => {
       console.log(e);
-    }
-  };
+    },
+  });
 
-  useEffect(() => {
-    nicknameApi();
-  }, []);
   //react-form-hook 관련 state와 함수
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<UserNicknameFormData>({
     mode: "onSubmit",
     reValidateMode: "onChange",
   });
-  const onSubmit = (data) => {
-    changeNicknameApi(data.nickname);
+  const onSubmit: SubmitHandler<UserNicknameFormData> = (data) => {
+    mutate(data.nickname);
   };
-  const onError = (error) => {
+  const onError: SubmitErrorHandler<UserNicknameFormData> = (error) => {
     console.log(error);
   };
+
   return (
     <Wrapper>
       <form onSubmit={handleSubmit(onSubmit, onError)}>
@@ -80,7 +88,7 @@ const ChangeNicknameModal = ({ handleOpenModal }) => {
             },
           })}
         />
-        {errors.nickname && <span>{errors.nickname.message}</span>}
+        {errors?.nickname && <span>{errors?.nickname?.message}</span>}
         <button type="submit">변경하기</button>
       </form>
     </Wrapper>
