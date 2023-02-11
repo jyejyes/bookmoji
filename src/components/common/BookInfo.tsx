@@ -2,6 +2,16 @@ import React from "react";
 import styled from "styled-components";
 import { color, device, whiteButton } from "../style/theme";
 
+interface Props {
+  thumbnail: string;
+  title: string;
+  datetime: string;
+  author: string;
+  publisher: string;
+  contents: string;
+  url: string;
+}
+
 const BookInfo = ({
   thumbnail,
   title,
@@ -10,7 +20,7 @@ const BookInfo = ({
   publisher,
   contents,
   url,
-}) => {
+}: Props) => {
   return (
     <BookInfoWrapper>
       <img src={thumbnail} alt="" />
@@ -21,7 +31,7 @@ const BookInfo = ({
         </p>
         <h3>{contents}...</h3>
         <button>
-          <a href={url} target="_blank">
+          <a href={url} target="_blank" rel="noreferrer">
             책 자세히 보러가기
           </a>
         </button>

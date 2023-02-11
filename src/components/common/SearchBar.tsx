@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
-import { addRecentSearch } from "../../store/actions/recentSearch";
 import { ReactComponent as Search } from "../../svg/ic-search.svg";
 import { color, device } from "../style/theme";
 
@@ -10,20 +8,18 @@ const SearchBar = () => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
 
-  const dispatch = useDispatch();
-
-  const onInputSearch = (e) => {
+  const onInputSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
 
-  const onSubmitSearch = (e) => {
+  const onSubmitSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
       navigate(`/search/${search}`);
     }
   };
 
-  const handleClickSearch = () => {
+  const handleClickSearch: React.MouseEventHandler<SVGSVGElement> = () => {
     navigate(`/search/${search}`);
   };
 
