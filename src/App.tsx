@@ -16,14 +16,14 @@ import Oauth from "./components/Auth/Oauth";
 
 const store = createStore(rootReducer, composeWithDevTools());
 
-function App() {
+const App = () => {
   const AccessUsersPage = Access(UserPage, true);
   const AccessCollectPage = Access(CollectPage, true);
 
   return (
     <Provider store={store}>
       <GlobalStyle />
-      {/* <Header /> */}
+
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/auth/:auth" element={<AuthPage />} />
@@ -35,6 +35,6 @@ function App() {
       </Routes>
     </Provider>
   );
-}
+};
 
 export default App;
