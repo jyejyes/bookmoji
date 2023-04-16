@@ -25,6 +25,7 @@ const MainPage = () => {
             <OtherReview />
           </>
         )}
+        <p>testtest</p>
         {!isLogin && (
           <>
             <button
