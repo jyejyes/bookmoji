@@ -25,6 +25,7 @@ const ChangeInfo = () => {
 
   return (
     <ChangeInfoWrapper>
+      <p>체리픽 테스트 하고싶어</p>
       <h2>개인정보 수정</h2>
       <p>닉네임 변경</p>
       <UserButton
